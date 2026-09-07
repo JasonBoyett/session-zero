@@ -1,0 +1,44 @@
+# =========================
+# Environment variables
+# =========================
+
+.env
+.env.*
+!.env.example
+
+
+# =========================
+# Rails / Ruby (api/)
+# =========================
+
+/api/.bundle/
+/api/log/*
+!/api/log/.keep
+
+/api/tmp/*
+!/api/tmp/.keep
+
+/api/storage/*
+!/api/storage/.keep
+
+/api/config/master.key
+
+/api/.ruby-version
+/api/coverage/
+
+
+# =========================
+# React / Vite
+# =========================
+
+/node_modules/
+/dist/
+/build/
+/.vite/
+
+
+# =========================
+# OS
+# =========================
+
+.DS_Store

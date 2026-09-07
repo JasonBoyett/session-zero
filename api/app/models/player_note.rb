@@ -1,0 +1,2 @@
+class PlayerNote < ApplicationRecord
+end
