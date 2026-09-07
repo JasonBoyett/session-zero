@@ -1,6 +1,6 @@
 class IdentityService
 
-  def authenticate(auth)
+  def self.authenticate(auth)
     identity = UserIdentity.find_by(
       provider: auth.provider,
       uid: auth.uid
