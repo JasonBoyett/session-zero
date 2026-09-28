@@ -317,5 +317,7 @@ Devise.setup do |config|
   config.omniauth :discord,
     ENV.fetch('DISCORD_CLIENT_ID'),
     ENV.fetch('DISCORD_CLIENT_SECRET'),
-    scope: "identify email"
+    scope: "identify email",
+    origin_param: "redirect"
+  config.omniauth_path_prefix = "/api/v1/auth/oauth"
 end

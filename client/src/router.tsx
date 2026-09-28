@@ -1,5 +1,6 @@
 import { createRouter as createTanStackRouter } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
+import type { RouterContext } from "./routerContext"
 
 export type ContextRouter = ReturnType<typeof getRouter>
 export function getRouter() {
@@ -9,8 +10,9 @@ export function getRouter() {
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
     context: {
+      apiClient: undefined!,
       auth: undefined!,
-    },
+    } satisfies RouterContext,
   })
 
   return router

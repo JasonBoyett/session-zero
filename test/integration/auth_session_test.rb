@@ -58,6 +58,20 @@ class AuthSessionTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "allows password login through login route" do
+    get "/api/v1/auth/session"
+    csrf_token = JSON.parse(response.body).fetch("csrf_token")
+    test_user = users(:one)
+    post "/api/v1/auth/login",
+      params: {
+        email: test_user.email,
+        password: "password"
+      },
+      headers: { "X-CSRF-Token" => csrf_token }
+
+    assert_response :success
+  end
+
   test "rejects password login in production" do
     test_user = users(:one)
     previous = Rails.application.config.x.password_login_enabled

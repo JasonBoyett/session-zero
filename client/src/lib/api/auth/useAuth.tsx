@@ -1,32 +1,59 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { destroySession, fetchSession } from "./session"
+import type { ApiClient } from "@api/apiClient"
+import { PRODUCTION_PASSWORD_AUTH_REJECTED_MESSAGE } from "@/lib/constants"
 
-export type AuthContext = typeof useAuth
+export type AuthContext = ReturnType<typeof useAuth>
+type UseAuthProps = {
+  apiClient: ApiClient
+}
 
-export const useAuth = () => {
+type LoginProps = {
+  email: string
+  password: string
+}
+
+type OauthProps = Parameters<ApiClient["startOauth"]>[0]
+
+export const useAuth = ({ apiClient }: UseAuthProps) => {
   const queryClient = useQueryClient()
   const sessionQueryKey = ["session"] as const
 
   const { data, isLoading, error } = useQuery({
     queryKey: sessionQueryKey,
-    queryFn: fetchSession,
+    queryFn: apiClient.setup,
   })
 
-  const logout = (cleanup?: () => void) =>
-    useMutation({
-      mutationFn: async () => {
-        const csrfToken = data?.csrfToken
+  const logout = useMutation({
+    mutationFn: async () => {
+      return apiClient.destroyAuthSession()
+    },
+    onSuccess: (updatedSession) => {
+      apiClient.cleanup()
+      queryClient.setQueryData(sessionQueryKey, updatedSession)
+    },
+  })
 
-        if (!csrfToken) {
-          throw new Error("Cannot log out without a CSRF token")
-        }
+  const login = useMutation({
+    mutationFn: async (props: LoginProps) => {
+      if (import.meta.env.VITE_ENV === "production") {
+        throw new Error(PRODUCTION_PASSWORD_AUTH_REJECTED_MESSAGE)
+      }
+      return apiClient.login(props)
+    },
+  })
 
-        return destroySession(csrfToken)
-      },
-      onSuccess: (updatedSession) => {
-        queryClient.setQueryData(sessionQueryKey, updatedSession)
-        if (cleanup) cleanup()
-      },
-    })
-  return { data, logout, isLoading, error }
+  const oauth = useMutation({
+    mutationFn: async (props: OauthProps) => {
+      return apiClient.startOauth(props)
+    },
+  })
+
+  return {
+    data,
+    logout,
+    login,
+    oauth,
+    isLoading,
+    error,
+  }
 }

@@ -1,15 +1,17 @@
 import ReactDOM from "react-dom/client"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { AuthenticatedRouter } from "./auth"
+import { ApiClientRouter } from "./auth"
 import { getRouter } from "./router"
+import { createApiClient } from "./lib/api/apiClient"
 
 const queryClient = new QueryClient()
 const router = getRouter()
+const apiClient = createApiClient()
 
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthenticatedRouter router={router} />
+      <ApiClientRouter router={router} apiClient={apiClient} />
     </QueryClientProvider>
   )
 }

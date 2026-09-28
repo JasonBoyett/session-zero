@@ -1,7 +1,15 @@
 import { useAuth } from "./lib/api/auth/useAuth"
 import { RouterProvider } from "@tanstack/react-router"
+import type { ApiClient } from "@api/apiClient"
 import type { ContextRouter } from "./router"
 
-export const AuthenticatedRouter = ({ router }: { router: ContextRouter }) => (
-  <RouterProvider router={router} context={{ auth: useAuth() }} />
-)
+type ApiClientRouterProps = {
+  apiClient: ApiClient
+  router: ContextRouter
+}
+
+export const ApiClientRouter = ({ apiClient, router }: ApiClientRouterProps) => {
+  const auth = useAuth({ apiClient })
+
+  return <RouterProvider router={router} context={{ apiClient, auth }} />
+}
