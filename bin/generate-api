@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+RAILS_ENV=test bundle exec rake rswag:specs:swaggerize
+bun run --cwd client generate-api-types

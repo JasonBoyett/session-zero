@@ -8,33 +8,36 @@
 
 
 # =========================
-# Rails / Ruby (api/)
+# Rails / Ruby
 # =========================
 
-/api/.bundle/
-/api/log/*
-!/api/log/.keep
+/.bundle/
+/log/*
+!/log/.keep
 
-/api/tmp/*
-!/api/tmp/.keep
+/tmp/*
+!/tmp/.keep
 
-/api/storage/*
-!/api/storage/.keep
+/storage/*
+!/storage/.keep
 
-/api/config/master.key
+/config/master.key
+/config/credentials/*.key
 
-/api/.ruby-version
-/api/coverage/
+/.ruby-version
+/coverage/
 
 
 # =========================
-# React / Vite
+# React / Vite (client/)
 # =========================
 
-/node_modules/
-/dist/
-/build/
-/.vite/
+/client/node_modules/
+/client/dist/
+/client/dist-ssr/
+/client/build/
+/client/.vite/
+/client/.tanstack/
 
 
 # =========================
