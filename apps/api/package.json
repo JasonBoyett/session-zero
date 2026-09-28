@@ -1,0 +1,9 @@
+{
+  "name": "api",
+  "private": true,
+  "scripts": {
+    "dev": "cd ../.. && bin/rails server",
+    "test": "cd ../.. && bin/rails test",
+    "rspec": "cd ../.. && bundle exec rspec"
+  }
+}

@@ -1,24 +1,49 @@
-# README
+# Session Zero
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Session Zero helps GMs and players plan TTRPG games through structured session-zero and safety conversations.
 
-Things you may want to cover:
+## Development
 
-* Ruby version
+Install JavaScript workspace dependencies from the repository root:
 
-* System dependencies
+```sh
+bun install
+```
 
-* Configuration
+Run the Rails API and Vite client together with Turborepo:
 
-* Database creation
+```sh
+bun dev
+```
 
-* Database initialization
+Run one side when you want narrower logs:
 
-* How to run the test suite
+```sh
+bun run dev:api
+bun run dev:client
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Run Bun commands inside the frontend package from the repository root:
 
-* Deployment instructions
+```sh
+bun frontend run lint
+bun frontend add <package>
+bun frontend add -d <package>
+```
+
+Add Rails/API gems from the repository root:
+
+```sh
+bundle add <gem>
+```
+
+Common checks:
+
+```sh
+bun run typecheck
+bun run lint
+bun run build
+bun run test:api
+```
 
 * ...

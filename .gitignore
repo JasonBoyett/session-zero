@@ -32,11 +32,14 @@
 # React / Vite (client/)
 # =========================
 
+/node_modules/
+/.turbo/
 /client/node_modules/
 /client/dist/
 /client/dist-ssr/
 /client/build/
 /client/.vite/
+/client/.turbo/
 /client/.tanstack/
 
 

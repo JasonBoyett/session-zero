@@ -1,0 +1,25 @@
+{
+  "name": "session-zero",
+  "private": true,
+  "packageManager": "bun@1.3.11",
+  "workspaces": [
+    "apps/api",
+    "client"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:api": "turbo run dev --filter=api",
+    "dev:client": "turbo run dev --filter=frontend",
+    "frontend": "bin/frontend",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:api": "turbo run test --filter=api && turbo run rspec --filter=api",
+    "check": "bun run typecheck && bun run lint && bun run build && bun run test:api",
+    "generate-api": "bin/generate-api"
+  },
+  "devDependencies": {
+    "turbo": "2.11.5"
+  }
+}
