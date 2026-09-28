@@ -72,11 +72,11 @@ class User < ApplicationRecord
   has_many :user_identities, dependent: :destroy
 
   validates :profile_picture,
-    format: {
-      with: %r{\Ahttps?://.+\.(?:jpg|jpeg|png|gif|webp|svg)(?:\?.*)?\z}i,
-      message: "must be a valid image URL"
-    },
-    allow_blank: true
+  format: {
+    with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
+    message: "must be a valid image URL"
+  },
+  allow_blank: true
 
   protected
 

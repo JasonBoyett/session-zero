@@ -185,7 +185,7 @@ const startOauth = async ({ provider, redirect }: StartOauthProps) => {
 
   const csrfInput = document.createElement("input")
   csrfInput.type = "hidden"
-  csrfInput.name = "_csrf_token"
+  csrfInput.name = "authenticity_token"
   csrfInput.value = csrfToken
 
   form.append(csrfInput)

@@ -8,6 +8,7 @@ import "../styles.css"
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
+  notFoundComponent: NotFoundComponent,
 })
 
 function RootComponent() {
@@ -26,5 +27,14 @@ function RootComponent() {
         ]}
       />
     </>
+  )
+}
+
+function NotFoundComponent() {
+  return (
+    <main className="p-8">
+      <h1 className="text-2xl font-bold">Not found</h1>
+      <p className="mt-2 text-gray-600">That page does not exist.</p>
+    </main>
   )
 }

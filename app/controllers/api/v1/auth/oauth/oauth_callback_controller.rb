@@ -20,9 +20,26 @@ module Api
             redirect_to client_redirect_url, allow_other_host: true
           end
 
+          # def failure
+          #   redirect_to client_redirect_url(error: params[:message].presence || "oauth_failed"),
+          #     allow_other_host: true
+          # end
+
           def failure
-            redirect_to client_redirect_url(error: params[:message].presence || "oauth_failed"),
-              allow_other_host: true
+            error = request.env["omniauth.error"]
+
+            Rails.logger.error <<~LOG
+              OAuth failure:
+                type: #{request.env["omniauth.error.type"].inspect}
+                error: #{error.inspect}
+                message: #{error&.message}
+                backtrace:
+                #{error&.backtrace&.first(20)&.join("\n")}
+            LOG
+
+            redirect_to client_redirect_url(
+              error: params[:message].presence || "oauth_failed"
+            ), allow_other_host: true
           end
 
           private
@@ -47,8 +64,6 @@ module Api
 
           def redirect_path
             path = params[:redirect].presence ||
-              params[:origin].presence ||
-              request.env["omniauth.origin"].presence ||
               DEFAULT_REDIRECT_PATH
 
             normalized_path = path.to_s.strip.sub(%r{\A/+}, "")

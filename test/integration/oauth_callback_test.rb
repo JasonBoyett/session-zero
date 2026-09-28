@@ -65,6 +65,30 @@ class OauthCallbackTest < ActionDispatch::IntegrationTest
     assert_redirected_to "http://client.example/games"
   end
 
+  test "request phase accepts browser form authenticity token" do
+    auth = OmniAuth::AuthHash.new(
+      provider: "discord",
+      uid: user_identities(:one).uid,
+      info: {
+        email: users(:one).email
+      }
+    )
+    OmniAuth.config.mock_auth[:discord] = auth
+
+    get "/api/v1/auth/session"
+    csrf_token = JSON.parse(response.body).fetch("csrf_token")
+
+    post "/api/v1/auth/oauth/discord",
+      params: {
+        authenticity_token: csrf_token,
+        redirect: "/games"
+      }
+
+    follow_redirect!
+
+    assert_redirected_to "http://client.example/games"
+  end
+
   test "callback falls back to the auth callback path" do
     auth = OmniAuth::AuthHash.new(
       provider: "discord",

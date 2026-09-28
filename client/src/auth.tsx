@@ -9,7 +9,10 @@ type ApiClientRouterProps = {
 }
 
 export const ApiClientRouter = ({ apiClient, router }: ApiClientRouterProps) => {
-  const auth = useAuth({ apiClient })
+  const auth = useAuth({
+    apiClient,
+    onAuthChange: () => router.invalidate(),
+  })
 
   return <RouterProvider router={router} context={{ apiClient, auth }} />
 }
