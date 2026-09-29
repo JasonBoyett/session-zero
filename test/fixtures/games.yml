@@ -1,11 +1,13 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+one:
+  name: Fixture Game One
+  system: Quest
+  description: A fixture game for model and association tests.
+  is_session_zero_complete: false
+  game_master_profile: one
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+two:
+  name: Fixture Game Two
+  system: Fate
+  description: Another fixture game for model and association tests.
+  is_session_zero_complete: true
+  game_master_profile: two

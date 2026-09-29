@@ -1,10 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  game_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
-  player_profile_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
+  title: Fixture Veil One
+  description: A soft boundary for fixture coverage.
+  is_anonymous: false
+  game: one
+  player_profile: one
 
 two:
-  game_id: <%= ActiveRecord::FixtureSet.identify(:two) %>
-  player_profile_id: <%= ActiveRecord::FixtureSet.identify(:two) %>
-# column: value
+  title: Fixture Veil Two
+  description: Another soft boundary for fixture coverage.
+  is_anonymous: true
+  game: two
+  player_profile: two

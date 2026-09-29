@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_29_005032) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_29_010617) do
   create_table "conversations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -39,9 +39,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_005032) do
   create_table "games", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
-    t.string "game_master_id"
+    t.integer "game_master_profile_id", null: false
+    t.boolean "is_session_zero_complete", default: false
     t.string "name"
+    t.string "system", default: "Dungeons and Dragons 5e"
     t.datetime "updated_at", null: false
+    t.index ["game_master_profile_id"], name: "index_games_on_game_master_profile_id"
   end
 
   create_table "lines", force: :cascade do |t|
@@ -121,6 +124,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_005032) do
   end
 
   add_foreign_key "game_master_profiles", "users"
+  add_foreign_key "games", "game_master_profiles"
   add_foreign_key "lines", "games"
   add_foreign_key "lines", "player_profiles"
   add_foreign_key "player_profiles", "games"
