@@ -28,17 +28,19 @@ function Home() {
             <p>{WELCOME_PAGE_TEXT_1}</p>
             <p>{WELCOME_PAGE_TEXT_2}</p>
           </div>
-          <div className="w-full max-w-sm">
-            {isAuthenticated ? (
+          {isAuthenticated ? (
+            <div className="w-full">
               <NavCluster />
-            ) : (
+            </div>
+          ) : (
+            <div className="w-full max-w-sm">
               <DiscordLoginButton
                 oauthInit={() =>
                   context.apiClient.startOauth({ provider: "discord" })
                 }
               />
-            )}
-          </div>
+            </div>
+          )}
 
           {!isProduction ? (
             <NavButton navOptions={{ to: "/login" }}>
