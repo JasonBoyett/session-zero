@@ -122,6 +122,40 @@ class OauthCallbackTest < ActionDispatch::IntegrationTest
     assert_redirected_to "http://client.example/evil.example/path"
   end
 
+  test "callback normalizes same-origin absolute redirect urls" do
+    auth = OmniAuth::AuthHash.new(
+      provider: "discord",
+      uid: user_identities(:one).uid,
+      info: {
+        email: users(:one).email
+      }
+    )
+
+    OmniAuth.config.mock_auth[:discord] = auth
+
+    get "/api/v1/auth/oauth/discord/callback",
+      params: { redirect: "http://client.example/games?tab=players" }
+
+    assert_redirected_to "http://client.example/games?tab=players"
+  end
+
+  test "callback rejects absolute redirect urls for other origins" do
+    auth = OmniAuth::AuthHash.new(
+      provider: "discord",
+      uid: user_identities(:one).uid,
+      info: {
+        email: users(:one).email
+      }
+    )
+
+    OmniAuth.config.mock_auth[:discord] = auth
+
+    get "/api/v1/auth/oauth/discord/callback",
+      params: { redirect: "https://evil.example/games" }
+
+    assert_redirected_to "http://client.example/auth/callback"
+  end
+
   test "callback rejects unsupported providers from the route" do
     auth = OmniAuth::AuthHash.new(
       provider: "discord",
@@ -150,6 +184,16 @@ class OauthCallbackTest < ActionDispatch::IntegrationTest
       params: { origin: "/login", message: "csrf_detected" }
 
     assert_redirected_to "http://client.example/login?error=csrf_detected"
+  end
+
+  test "failure normalizes same-origin absolute omniauth origin" do
+    get "/api/v1/auth/oauth/failure",
+      params: {
+        origin: "http://client.example/login?from=discord",
+        message: "csrf_detected"
+      }
+
+    assert_redirected_to "http://client.example/login?error=csrf_detected&from=discord"
   end
 
   test "passthru rejects unsupported provider requests not handled by omniauth" do

@@ -51,7 +51,7 @@ module Api
           end
 
           def client_redirect_url(error: nil)
-            uri = URI.join(Rails.application.config.x.client_url, redirect_path)
+            uri = URI.join(Rails.application.config.x.client_url, normalized_redirect_path)
 
             if error
               query = Rack::Utils.parse_nested_query(uri.query)
@@ -62,13 +62,37 @@ module Api
             uri.to_s
           end
 
-          def redirect_path
+          def normalized_redirect_path
             path = params[:redirect].presence ||
               request.env["omniauth.origin"].presence ||
               params[:origin].presence ||
               DEFAULT_REDIRECT_PATH
 
-            normalized_path = path.to_s.strip.sub(%r{\A/+}, "")
+            path = path.to_s.strip
+
+            absolute_url_path(path) || sanitized_relative_path(path)
+          end
+
+          def absolute_url_path(path)
+            uri = URI.parse(path)
+            return unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+
+            client_uri = URI.parse(Rails.application.config.x.client_url)
+            return DEFAULT_REDIRECT_PATH unless same_origin?(uri, client_uri)
+
+            uri.request_uri.presence || "/"
+          rescue URI::InvalidURIError
+            nil
+          end
+
+          def same_origin?(uri, client_uri)
+            uri.scheme == client_uri.scheme &&
+              uri.host == client_uri.host &&
+              uri.port == client_uri.port
+          end
+
+          def sanitized_relative_path(path)
+            normalized_path = path.sub(%r{\A/+}, "")
 
             "/#{normalized_path}"
           end
