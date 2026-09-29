@@ -27,6 +27,7 @@ Run Bun commands inside the frontend package from the repository root:
 
 ```sh
 bun frontend run lint
+bun frontenx tsc --noEmit
 bun frontend add <package>
 bun frontend add -d <package>
 ```

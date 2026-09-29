@@ -51,7 +51,7 @@ export const useAuth = ({ apiClient, onAuthChange }: UseAuthProps) => {
 
   const login = useMutation({
     mutationFn: async (props: LoginProps) => {
-      if (import.meta.env.VITE_ENV === "production") {
+      if (import.meta.env.PROD) {
         throw new Error(PRODUCTION_PASSWORD_AUTH_REJECTED_MESSAGE)
       }
       return apiClient.login(props)

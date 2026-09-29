@@ -52,6 +52,7 @@ The app should help groups align on campaign expectations, tone, boundaries, saf
 - Prefer inferred TypeScript types unless explicit types improve clarity or exported API safety.
 - Prefer arrow functions for new local helpers and callbacks.
 - Use `bun frontend <args>` from the repository root when running Bun commands inside `client/`, including `bun frontend add <package>`.
+- Use `bun frontenx <args>` from the repository root when running `bunx` tools inside `client/`.
 - Preserve existing design patterns unless intentionally redesigning.
 - Run frontend typecheck, lint, and build before considering frontend work complete.
 
@@ -90,6 +91,7 @@ Dependencies:
 ```sh
 bun frontend add <package>
 bun frontend add -d <package>
+bun frontenx <tool>
 bundle add <gem>
 ```
 
