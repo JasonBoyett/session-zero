@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_16_233209) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_29_005032) do
   create_table "conversations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -46,7 +46,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_233209) do
 
   create_table "lines", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "game_id", null: false
+    t.boolean "is_anonymous"
+    t.integer "player_profile_id", null: false
+    t.string "title"
     t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_lines_on_game_id"
+    t.index ["player_profile_id"], name: "index_lines_on_player_profile_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -105,7 +112,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_233209) do
     t.datetime "created_at", null: false
     t.text "description"
     t.integer "game_id", null: false
-    t.boolean "is_annonymous"
+    t.boolean "is_anonymous"
     t.integer "player_profile_id", null: false
     t.string "title"
     t.datetime "updated_at", null: false
@@ -114,6 +121,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_233209) do
   end
 
   add_foreign_key "game_master_profiles", "users"
+  add_foreign_key "lines", "games"
+  add_foreign_key "lines", "player_profiles"
   add_foreign_key "player_profiles", "games"
   add_foreign_key "player_profiles", "users"
   add_foreign_key "user_identities", "users"
