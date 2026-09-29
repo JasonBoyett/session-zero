@@ -64,6 +64,8 @@ module Api
 
           def redirect_path
             path = params[:redirect].presence ||
+              request.env["omniauth.origin"].presence ||
+              params[:origin].presence ||
               DEFAULT_REDIRECT_PATH
 
             normalized_path = path.to_s.strip.sub(%r{\A/+}, "")
