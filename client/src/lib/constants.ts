@@ -1,6 +1,7 @@
 // keys for query cache
 export const INDEX_USER_QUERY_KEY = ["index", "user"] as const
 export const USER_USER_PAGE_KEY = ["user", "user"] as const
+export const USER_GAMES_PAGE_KEY = ["user", "games"] as const
 
 // text headers
 export const HOME_NAV_CARD_TITLE = "Welcome back"

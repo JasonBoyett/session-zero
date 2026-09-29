@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
+import { Route as UserGamesIndexRouteImport } from './routes/user/games/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const UserIndexRoute = UserIndexRouteImport.update({
   path: '/user/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserGamesIndexRoute = UserGamesIndexRouteImport.update({
+  id: '/user/games/',
+  path: '/user/games/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/login/': typeof LoginIndexRoute
   '/user/': typeof UserIndexRoute
+  '/user/games/': typeof UserGamesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/login': typeof LoginIndexRoute
   '/user': typeof UserIndexRoute
+  '/user/games': typeof UserGamesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,15 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/login/': typeof LoginIndexRoute
   '/user/': typeof UserIndexRoute
+  '/user/games/': typeof UserGamesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/callback' | '/login/' | '/user/'
+  fullPaths: '/' | '/auth/callback' | '/login/' | '/user/' | '/user/games/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/callback' | '/login' | '/user'
-  id: '__root__' | '/' | '/auth/callback' | '/login/' | '/user/'
+  to: '/' | '/auth/callback' | '/login' | '/user' | '/user/games'
+  id:
+    '__root__' | '/' | '/auth/callback' | '/login/' | '/user/' | '/user/games/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +77,7 @@ export interface RootRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
   LoginIndexRoute: typeof LoginIndexRoute
   UserIndexRoute: typeof UserIndexRoute
+  UserGamesIndexRoute: typeof UserGamesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +110,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/games/': {
+      id: '/user/games/'
+      path: '/user/games'
+      fullPath: '/user/games/'
+      preLoaderRoute: typeof UserGamesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +125,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
   LoginIndexRoute: LoginIndexRoute,
   UserIndexRoute: UserIndexRoute,
+  UserGamesIndexRoute: UserGamesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

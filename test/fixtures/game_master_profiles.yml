@@ -1,8 +1,25 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  name: Fixture Guide
+  bio: A steady GM profile owned by User One.
+  profile_picture: https://example.com/gm-fixture-guide.png
+  systems:
+    - Quest
   user: one
 
 two:
+  name: Fixture Oracle
+  bio: A mystery-focused GM profile owned by User Two.
+  profile_picture: https://example.com/gm-fixture-oracle.png
+  systems:
+    - Fate
   user: two
-# column: value
+
+one_alt:
+  name: Fixture Chaos
+  bio: A second, louder GM profile owned by User One.
+  profile_picture: https://example.com/gm-fixture-chaos.png
+  systems:
+    - Mork Borg
+  user: one

@@ -67,6 +67,80 @@ RSpec.configure do |config|
           UpdateCurrentUserRequest: {
             type: :object,
             properties: User.updatable_attributes_for_openapi
+          },
+          ProfileSummary: {
+            type: :object,
+            required: %w[id displayName profilePicture],
+            properties: {
+              id: { type: :integer },
+              displayName: { type: :string, nullable: true },
+              profilePicture: { type: :string, nullable: true }
+            }
+          },
+          GameSummary: {
+            type: :object,
+            required: %w[id name description playerCount],
+            properties: {
+              id: { type: :integer },
+              name: { type: :string, nullable: true },
+              description: { type: :string, nullable: true },
+              playerCount: { type: :integer }
+            }
+          },
+          GameSummaryAsGm: {
+            allOf: [
+              { "$ref" => "#/components/schemas/GameSummary" }
+            ]
+          },
+          GameSummaryAsPlayer: {
+            allOf: [
+              { "$ref" => "#/components/schemas/GameSummary" },
+              {
+                type: :object,
+                required: %w[playerProfile gmProfile],
+                properties: {
+                  playerProfile: {
+                    "$ref" => "#/components/schemas/ProfileSummary"
+                  },
+                  gmProfile: {
+                    "$ref" => "#/components/schemas/ProfileSummary"
+                  }
+                }
+              }
+            ]
+          },
+          GmIdentitySummary: {
+            type: :object,
+            required: %w[id displayName profilePicture games],
+            properties: {
+              id: { type: :integer },
+              displayName: { type: :string, nullable: true },
+              profilePicture: { type: :string, nullable: true },
+              games: {
+                type: :array,
+                items: {
+                  "$ref" => "#/components/schemas/GameSummaryAsGm"
+                }
+              }
+            }
+          },
+          GamesIndexResponse: {
+            type: :object,
+            required: %w[gmIdentities gamesAsPlayer],
+            properties: {
+              gmIdentities: {
+                type: :array,
+                items: {
+                  "$ref" => "#/components/schemas/GmIdentitySummary"
+                }
+              },
+              gamesAsPlayer: {
+                type: :array,
+                items: {
+                  "$ref" => "#/components/schemas/GameSummaryAsPlayer"
+                }
+              }
+            }
           }
         }
       }

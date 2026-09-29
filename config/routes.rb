@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         resource :session, only: %i[show create destroy]
         resource :me, only: %i[show], controller: :me
         patch :me, to: "me#update"
+        get "me/games", to: "me/games#index"
 
         devise_scope :user do
           namespace :oauth do

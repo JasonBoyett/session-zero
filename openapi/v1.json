@@ -343,6 +343,30 @@
           }
         }
       }
+    },
+    "/auth/me/games": {
+      "get": {
+        "summary": "Lists games associated with the current user's profiles",
+        "operationId": "getCurrentUserGames",
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "current user's profile-grouped games",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GamesIndexResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "unauthenticated"
+          }
+        }
+      }
     }
   },
   "servers": [
@@ -456,6 +480,130 @@
           "profilePicture": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "ProfileSummary": {
+        "type": "object",
+        "required": [
+          "id",
+          "displayName",
+          "profilePicture"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GameSummary": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "playerCount"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "playerCount": {
+            "type": "integer"
+          }
+        }
+      },
+      "GameSummaryAsGm": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GameSummary"
+          }
+        ]
+      },
+      "GameSummaryAsPlayer": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GameSummary"
+          },
+          {
+            "type": "object",
+            "required": [
+              "playerProfile",
+              "gmProfile"
+            ],
+            "properties": {
+              "playerProfile": {
+                "$ref": "#/components/schemas/ProfileSummary"
+              },
+              "gmProfile": {
+                "$ref": "#/components/schemas/ProfileSummary"
+              }
+            }
+          }
+        ]
+      },
+      "GmIdentitySummary": {
+        "type": "object",
+        "required": [
+          "id",
+          "displayName",
+          "profilePicture",
+          "games"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          },
+          "games": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameSummaryAsGm"
+            }
+          }
+        }
+      },
+      "GamesIndexResponse": {
+        "type": "object",
+        "required": [
+          "gmIdentities",
+          "gamesAsPlayer"
+        ],
+        "properties": {
+          "gmIdentities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GmIdentitySummary"
+            }
+          },
+          "gamesAsPlayer": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameSummaryAsPlayer"
+            }
           }
         }
       }

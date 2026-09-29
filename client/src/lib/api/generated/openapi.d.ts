@@ -109,6 +109,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/me/games": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists games associated with the current user's profiles */
+        get: operations["getCurrentUserGames"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -140,6 +157,32 @@ export interface components {
         UpdateCurrentUserRequest: {
             name?: string | null;
             profilePicture?: string | null;
+        };
+        ProfileSummary: {
+            id: number;
+            displayName: string | null;
+            profilePicture: string | null;
+        };
+        GameSummary: {
+            id: number;
+            name: string | null;
+            description: string | null;
+            playerCount: number;
+        };
+        GameSummaryAsGm: components["schemas"]["GameSummary"];
+        GameSummaryAsPlayer: components["schemas"]["GameSummary"] & {
+            playerProfile: components["schemas"]["ProfileSummary"];
+            gmProfile: components["schemas"]["ProfileSummary"];
+        };
+        GmIdentitySummary: {
+            id: number;
+            displayName: string | null;
+            profilePicture: string | null;
+            games: components["schemas"]["GameSummaryAsGm"][];
+        };
+        GamesIndexResponse: {
+            gmIdentities: components["schemas"]["GmIdentitySummary"][];
+            gamesAsPlayer: components["schemas"]["GameSummaryAsPlayer"][];
         };
     };
     responses: never;
@@ -406,6 +449,33 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["AuthResponse"];
                 };
+            };
+        };
+    };
+    getCurrentUserGames: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description current user's profile-grouped games */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GamesIndexResponse"];
+                };
+            };
+            /** @description unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

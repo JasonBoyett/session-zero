@@ -11,3 +11,17 @@ two:
   description: Another fixture game for model and association tests.
   is_session_zero_complete: true
   game_master_profile: two
+
+three:
+  name: Fixture Game Three
+  system: Mork Borg
+  description: A second fixture game run by User One under another profile.
+  is_session_zero_complete: false
+  game_master_profile: one_alt
+
+four:
+  name: Fixture Game Four
+  system: Vaesen
+  description: A second fixture game run by User Two for player grouping tests.
+  is_session_zero_complete: false
+  game_master_profile: two

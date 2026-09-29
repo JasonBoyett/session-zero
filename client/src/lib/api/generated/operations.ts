@@ -39,5 +39,11 @@ export const apiOperations = {
     "method": "post",
     "hasBody": true,
     "requiresCsrf": true
+  },
+  "getCurrentUserGames": {
+    "route": "/auth/me/games",
+    "method": "get",
+    "hasBody": false,
+    "requiresCsrf": false
   }
 } as const

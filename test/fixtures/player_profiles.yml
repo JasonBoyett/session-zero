@@ -1,10 +1,46 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
+  character_name: Fixture Hero
+  character_description: A player profile in User One's fixture game.
+  character_image: https://example.com/fixture-hero.png
+  character_sheet_link: https://example.com/sheets/fixture-hero
+  is_accepted: true
+  user: two
   game: one
 
 two:
+  character_name: Fixture Wanderer
+  character_description: A player profile for User Two.
+  character_image: https://example.com/fixture-wanderer.png
+  character_sheet_link: https://example.com/sheets/fixture-wanderer
+  is_accepted: true
   user: two
   game: two
-# column: value
+
+one_in_two:
+  character_name: Fixture Guest
+  character_description: User One playing at User Two's table.
+  character_image: https://example.com/fixture-guest.png
+  character_sheet_link: https://example.com/sheets/fixture-guest
+  is_accepted: true
+  user: one
+  game: two
+
+one_pending_four:
+  character_name: Fixture Pending
+  character_description: User One waiting for acceptance at another table.
+  character_image: https://example.com/fixture-pending.png
+  character_sheet_link: https://example.com/sheets/fixture-pending
+  is_accepted: false
+  user: one
+  game: four
+
+two_in_one:
+  character_name: Fixture Sidekick
+  character_description: User Two playing in User One's fixture game.
+  character_image: https://example.com/fixture-sidekick.png
+  character_sheet_link: https://example.com/sheets/fixture-sidekick
+  is_accepted: true
+  user: two
+  game: one
