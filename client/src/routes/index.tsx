@@ -8,8 +8,8 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Header } from "@/components/custom/header"
 import { NavButton } from "@/components/custom/navButton"
 import { NavCluster } from "@/components/custom/homePage/navCluster"
-import { Button } from "@/components/ui/button"
 import { SZLogo } from "@/components/custom/sz-logo"
+import { DiscordLoginButton } from "@/components/custom/discord-login-button"
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -28,26 +28,23 @@ function Home() {
             <p>{WELCOME_PAGE_TEXT_1}</p>
             <p>{WELCOME_PAGE_TEXT_2}</p>
           </div>
-          <div>
+          <div className="w-full max-w-sm">
             {isAuthenticated ? (
               <NavCluster />
             ) : (
-              <Button
-                type="button"
-                onClick={() => {
+              <DiscordLoginButton
+                oauthInit={() =>
                   context.apiClient.startOauth({ provider: "discord" })
-                }}
-              >
-                Login With Discord
-              </Button>
+                }
+              />
             )}
-
-            {!isProduction ? (
-              <NavButton navOptions={{ to: "/login" }}>
-                Development Login
-              </NavButton>
-            ) : null}
           </div>
+
+          {!isProduction ? (
+            <NavButton navOptions={{ to: "/login" }}>
+              Development Login
+            </NavButton>
+          ) : null}
         </div>
       </div>
     </Page>
