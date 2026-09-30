@@ -12,12 +12,8 @@ type UseAuthProps = {
   onAuthChange?: () => void
 }
 
-export type LoginProps = {
-  email: string
-  password: string
-}
-
 type OauthProps = Parameters<ApiClient["startOauth"]>[0]
+type LoginProps = Parameters<ApiClient["login"]>[0]
 
 export const useAuth = ({ apiClient, onAuthChange }: UseAuthProps) => {
   const queryClient = useQueryClient()
