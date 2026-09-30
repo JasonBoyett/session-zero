@@ -133,6 +133,13 @@ gm_profiles = {
     systems: [ "Mork Borg", "Old-School Essentials", "Dungeons and Dragons 5e" ],
     avatar_seed: "Vex Bloodletter"
   ),
+  cantever: seed_gm_profile!(
+    user: users[:developer],
+    name: "Cantever Sayno",
+    bio: "Chronically overcommitted GM who cannot stop starting new campaigns, one-shots, playtests, side arcs, convention tables, and probably a podcast.",
+    systems: [ "Dungeons and Dragons 5e", "Pathfinder 2e", "Fate", "Blades in the Dark", "Quest" ],
+    avatar_seed: "Cantever Sayno"
+  ),
   oracle: seed_gm_profile!(
     user: users[:alex],
     name: "The Glass Oracle",
@@ -186,6 +193,37 @@ games = {
     is_session_zero_complete: false
   )
 }
+
+[
+  [ "The Seventeenth Session Zero", "Dungeons and Dragons 5e", "A campaign planning table for players who all arrived with secret heirs, forbidden magic, and incompatible calendars.", false ],
+  [ "Oops All Clerics", "Pathfinder 2e", "A temple road trip where every miracle creates paperwork and every village needs one more blessing before breakfast.", true ],
+  [ "The Dungeon Under the Dungeon", "Old-School Essentials", "A classic crawl that keeps revealing worse basements, stranger maps, and notes from parties who quit while ahead.", false ],
+  [ "Moonlit Side Quest Club", "Quest", "A gentle episodic table about friends solving small problems that somehow keep becoming emotionally important.", true ],
+  [ "The Archive That Bites", "Fate", "Scholars, thieves, and cursed librarians negotiate with books that remember every hand that opened them.", false ],
+  [ "Blades of Bookkeeping", "Blades in the Dark", "A crew of criminals discovers the real score is fixing the ledger before the auditors become ghosts.", true ],
+  [ "Festival of Bad Omens", "Monster of the Week", "A small-town celebration where every pie contest, parade float, and raffle ticket points toward a monster.", false ],
+  [ "Starship Group Project", "Scum and Villainy", "A stressed crew tries to keep one patched-together ship flying while everyone has a different definition of success.", false ],
+  [ "The Goblet Is Clearly Haunted", "Dungeons and Dragons 5e", "A royal tournament mystery where the prize talks back and the bracket keeps rearranging itself overnight.", true ],
+  [ "Caverns and Committee Meetings", "Pathfinder 2e", "Adventurers split their time between tactical delves and the increasingly political guild that funds them.", false ],
+  [ "The Orchard at the End", "Quest", "A pastoral fantasy about lost roads, talking fruit trees, and promises made to people who are no longer here.", true ],
+  [ "Neon Familiar", "Fate", "Urban fantasy investigators follow a magical pet through subway omens, apartment wards, and deeply weird tenant meetings.", false ],
+  [ "The Tomb Has Notes", "Old-School Essentials", "A trap-heavy ruin where previous delvers left annotations, warnings, complaints, and one very confident recipe.", false ],
+  [ "Court of Borrowed Masks", "Dungeons and Dragons 5e", "A social intrigue game about masked bargains, identity swaps, and the cost of being believed.", true ],
+  [ "The Lighthouse Below", "Vaesen", "A coastal mystery where the lighthouse beam shines upward from under the sea and people pretend that is normal.", false ],
+  [ "Everyone Is the Chosen One", "Fate", "A prophecy comedy where five heroes each have airtight proof that destiny picked them specifically.", true ],
+  [ "The Quiet Apocalypse", "Monster of the Week", "A slow-burn mystery where the end of the world starts as missed appointments, empty shelves, and polite denial.", false ],
+  [ "Heist at Grandma's House", "Blades in the Dark", "A low-stakes, high-chaos caper where the crew must retrieve a relic before family dinner gets complicated.", true ],
+  [ "Dragon Boat HOA", "Dungeons and Dragons 5e", "Neighbors on a floating settlement argue about dock rules, dragon visits, and whose turn it is to fight pirates.", false ],
+  [ "The Campaign I Swore Was Tiny", "Quest", "A supposed three-session experiment that already has factions, custom lore, and a suspiciously detailed calendar.", false ]
+].each_with_index do |(name, system, description, is_session_zero_complete), index|
+  games[:"cantever_#{index + 1}"] = seed_game!(
+    gm_profile: gm_profiles[:cantever],
+    name:,
+    system:,
+    description:,
+    is_session_zero_complete:
+  )
+end
 
 players = {}
 

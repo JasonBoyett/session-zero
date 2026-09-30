@@ -146,3 +146,39 @@ body {
     @apply font-sans;
   }
 }
+
+@layer components {
+  .gm-games-row {
+    scrollbar-color: transparent transparent;
+    scrollbar-width: thin;
+    transition: scrollbar-color 150ms ease;
+  }
+
+  .gm-games-row:hover,
+  .gm-games-row:focus-within {
+    scrollbar-color: color-mix(in oklch, var(--muted-foreground) 35%, transparent)
+      transparent;
+  }
+
+  .gm-games-row::-webkit-scrollbar {
+    height: 0.5rem;
+  }
+
+  .gm-games-row::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .gm-games-row::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 999px;
+  }
+
+  .gm-games-row:hover::-webkit-scrollbar-thumb,
+  .gm-games-row:focus-within::-webkit-scrollbar-thumb {
+    background-color: color-mix(
+      in oklch,
+      var(--muted-foreground) 35%,
+      transparent
+    );
+  }
+}
