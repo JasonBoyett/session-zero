@@ -126,6 +126,11 @@ RSpec.configure do |config|
           },
           GamesIndexResponse: {
             type: :object,
+            "x-type-aliases" => {
+              "GamesIndexGmIdentity" => "gmIdentities[number]",
+              "GamesIndexGameAsGm" => "gmIdentities[number].games[number]",
+              "GamesIndexGameAsPlayer" => "gamesAsPlayer[number]"
+            },
             required: %w[gmIdentities gamesAsPlayer],
             properties: {
               gmIdentities: {

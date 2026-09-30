@@ -1,6 +1,6 @@
 import type {
-  GameSummaryAsGm,
-  GameSummaryAsPlayer,
+  GamesIndexGameAsGm,
+  GamesIndexGameAsPlayer,
 } from "@/lib/api/generated/types"
 import { USER_GAMES_PAGE_KEY } from "@/lib/constants"
 import { useQuery } from "@tanstack/react-query"
@@ -44,7 +44,7 @@ function RouteComponent() {
   )
 }
 
-const GameMasterGameView = ({ game }: { game: GameSummaryAsGm }) => {
+const GameMasterGameView = ({ game }: { game: GamesIndexGameAsGm }) => {
   return (
     <article>
       <h3>{game.name}</h3>
@@ -54,7 +54,7 @@ const GameMasterGameView = ({ game }: { game: GameSummaryAsGm }) => {
   )
 }
 
-const PlayerGameView = ({ game }: { game: GameSummaryAsPlayer }) => {
+const PlayerGameView = ({ game }: { game: GamesIndexGameAsPlayer }) => {
   return (
     <article>
       <h3>{game.name}</h3>

@@ -74,14 +74,67 @@ export type ApiOperationRequestData<TOperationId extends ApiOperationId> =
     ? Body
     : never
 
-export type AuthResponse = components["schemas"]["AuthResponse"]
-export type CreateAuthSessionRequest = components["schemas"]["CreateAuthSessionRequest"]
-export type ErrorResponse = components["schemas"]["ErrorResponse"]
-export type CurrentUserResponse = components["schemas"]["CurrentUserResponse"]
-export type UpdateCurrentUserRequest = components["schemas"]["UpdateCurrentUserRequest"]
-export type ProfileSummary = components["schemas"]["ProfileSummary"]
-export type GameSummary = components["schemas"]["GameSummary"]
-export type GameSummaryAsGm = components["schemas"]["GameSummaryAsGm"]
-export type GameSummaryAsPlayer = components["schemas"]["GameSummaryAsPlayer"]
-export type GmIdentitySummary = components["schemas"]["GmIdentitySummary"]
-export type GamesIndexResponse = components["schemas"]["GamesIndexResponse"]
+export type AuthResponse = {
+  authenticated: boolean
+  csrfToken: string
+  userId: number | null
+}
+
+export type CreateAuthSessionRequest = {
+  email: string
+  password: string
+}
+
+export type ErrorResponse = {
+  error: string
+}
+
+export type CurrentUserResponse = {
+  id: number
+  email: string | null
+  name: string | null
+  profilePicture: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export type UpdateCurrentUserRequest = {
+  name?: string | null
+  profilePicture?: string | null
+}
+
+export type ProfileSummary = {
+  id: number
+  displayName: string | null
+  profilePicture: string | null
+}
+
+export type GameSummary = {
+  id: number
+  name: string | null
+  description: string | null
+  playerCount: number
+}
+
+export type GameSummaryAsGm = GameSummary
+
+export type GameSummaryAsPlayer = GameSummary & {
+  playerProfile: ProfileSummary
+  gmProfile: ProfileSummary
+}
+
+export type GmIdentitySummary = {
+  id: number
+  displayName: string | null
+  profilePicture: string | null
+  games: GameSummaryAsGm[]
+}
+
+export type GamesIndexResponse = {
+  gmIdentities: GmIdentitySummary[]
+  gamesAsPlayer: GameSummaryAsPlayer[]
+}
+
+export type GamesIndexGmIdentity = GmIdentitySummary
+export type GamesIndexGameAsGm = GameSummaryAsGm
+export type GamesIndexGameAsPlayer = GameSummaryAsPlayer

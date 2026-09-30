@@ -17,10 +17,160 @@ execFileSync(
 )
 
 const openApi = JSON.parse(readFileSync(openApiPath, "utf8"))
-const schemaNames = Object.keys(openApi.components?.schemas ?? {})
+const schemas = openApi.components?.schemas ?? {}
+const schemaNames = Object.keys(schemas)
+
+const tsIdentifierPattern = /^[A-Za-z_$][\w$]*$/
+
+const pathExpressionForAlias = (baseTypeName, aliasPath) => {
+  if (!tsIdentifierPattern.test(baseTypeName)) {
+    throw new Error(`Invalid schema type name for alias generation: ${baseTypeName}`)
+  }
+
+  const segments = aliasPath.split(".").filter(Boolean)
+
+  if (segments.length === 0) {
+    throw new Error(`Alias path for ${baseTypeName} cannot be empty`)
+  }
+
+  return segments.reduce((expression, segment) => {
+    const match = segment.match(/^([A-Za-z_$][\w$]*)(\[number\])?$/)
+
+    if (!match) {
+      throw new Error(
+        `Invalid alias path segment "${segment}" for schema ${baseTypeName}`,
+      )
+    }
+
+    const [, propertyName, arrayAccess] = match
+    const propertyAccess = `${expression}["${propertyName}"]`
+
+    return arrayAccess ? `${propertyAccess}[number]` : propertyAccess
+  }, baseTypeName)
+}
+
+const schemaNameFromRef = (ref) => {
+  const prefix = "#/components/schemas/"
+
+  return typeof ref === "string" && ref.startsWith(prefix)
+    ? ref.slice(prefix.length)
+    : null
+}
+
+const dereferenceSchema = (schema) => {
+  const refName = schemaNameFromRef(schema?.$ref)
+
+  return refName ? schemas[refName] : schema
+}
+
+const schemaForAliasPath = (baseTypeName, aliasPath) => {
+  let schema = schemas[baseTypeName]
+
+  if (!schema) return null
+
+  for (const segment of aliasPath.split(".").filter(Boolean)) {
+    const match = segment.match(/^([A-Za-z_$][\w$]*)(\[number\])?$/)
+
+    if (!match) return null
+
+    const [, propertyName, arrayAccess] = match
+    schema = dereferenceSchema(schema)
+    schema = schema?.properties?.[propertyName]
+
+    if (!schema) return null
+
+    if (arrayAccess) {
+      schema = schema.type === "array" ? schema.items : null
+    }
+
+    if (!schema) return null
+  }
+
+  return schema
+}
+
+const aliasTarget = (baseTypeName, aliasPath) => {
+  const targetSchema = schemaForAliasPath(baseTypeName, aliasPath)
+  const refName = schemaNameFromRef(targetSchema?.$ref)
+
+  return {
+    expression: refName ?? pathExpressionForAlias(baseTypeName, aliasPath),
+    isSchemaRef: Boolean(refName),
+  }
+}
+
+const nullableType = (type, schema) => schema?.nullable ? `${type} | null` : type
+
+const propertyKey = (name) => tsIdentifierPattern.test(name) ? name : JSON.stringify(name)
+
+const renderSchemaType = (schema) => {
+  const refName = schemaNameFromRef(schema?.$ref)
+
+  if (refName) return refName
+
+  if (schema?.allOf) {
+    return schema.allOf.map(renderSchemaType).join(" & ")
+  }
+
+  if (schema?.oneOf) {
+    return schema.oneOf.map(renderSchemaType).join(" | ")
+  }
+
+  if (schema?.enum) {
+    return schema.enum.map((value) => JSON.stringify(value)).join(" | ")
+  }
+
+  if (schema?.type === "array") {
+    return nullableType(`${renderSchemaType(schema.items)}[]`, schema)
+  }
+
+  if (schema?.type === "object" || schema?.properties) {
+    const required = new Set(schema.required ?? [])
+    const properties = Object.entries(schema.properties ?? {})
+
+    if (properties.length === 0) return nullableType("Record<string, never>", schema)
+
+    const body = properties
+      .map(([name, propertySchema]) => {
+        const optional = required.has(name) ? "" : "?"
+
+        return `  ${propertyKey(name)}${optional}: ${renderSchemaType(propertySchema)}`
+      })
+      .join("\n")
+
+    return nullableType(`{\n${body}\n}`, schema)
+  }
+
+  const primitiveType = {
+    boolean: "boolean",
+    integer: "number",
+    number: "number",
+    string: "string",
+  }[schema?.type]
+
+  return nullableType(primitiveType ?? "unknown", schema)
+}
 
 const aliases = schemaNames
-  .map((name) => `export type ${name} = components["schemas"]["${name}"]`)
+  .map((name) => `export type ${name} = ${renderSchemaType(schemas[name])}`)
+  .join("\n\n")
+
+const helperAliases = Object.entries(schemas)
+  .flatMap(([schemaName, schema]) =>
+    Object.entries(schema?.["x-type-aliases"] ?? {}).map(([aliasName, aliasPath]) => {
+      if (!tsIdentifierPattern.test(aliasName)) {
+        throw new Error(`Invalid generated alias name: ${aliasName}`)
+      }
+
+      if (typeof aliasPath !== "string") {
+        throw new Error(`Alias path for ${aliasName} must be a string`)
+      }
+
+      const target = aliasTarget(schemaName, aliasPath)
+
+      return `export type ${aliasName} = ${target.expression}`
+    }),
+  )
   .join("\n")
 
 const operationEntries = Object.entries(openApi.paths ?? {}).flatMap(
@@ -141,5 +291,6 @@ export type ApiOperationRequestData<TOperationId extends ApiOperationId> =
     : never
 
 ${aliases}
+${helperAliases ? `\n${helperAliases}` : ""}
 `,
 )

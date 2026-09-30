@@ -588,6 +588,11 @@
       },
       "GamesIndexResponse": {
         "type": "object",
+        "x-type-aliases": {
+          "GamesIndexGmIdentity": "gmIdentities[number]",
+          "GamesIndexGameAsGm": "gmIdentities[number].games[number]",
+          "GamesIndexGameAsPlayer": "gamesAsPlayer[number]"
+        },
         "required": [
           "gmIdentities",
           "gamesAsPlayer"
