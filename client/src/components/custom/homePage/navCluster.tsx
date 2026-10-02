@@ -12,7 +12,7 @@ import {
 } from "@/lib/constants"
 import { NavButton } from "../navButton"
 
-export const NavCluster = () => {
+export const NavCluster = ({ userId }: { userId: number }) => {
   return (
     <Card className="mb-6">
       <CardTitle className="text-3xl">{HOME_NAV_CARD_TITLE}</CardTitle>
@@ -24,7 +24,12 @@ export const NavCluster = () => {
           <NavButton navOptions={{ to: "/user/games" }}>
             <p> {HOME_GAMES_NAV_BUTTON_TEXT} </p>
           </NavButton>
-          <NavButton navOptions={{ to: "/user" }}>
+          <NavButton
+            navOptions={{
+              to: "/profile/$type/$id",
+              params: { type: "user", id: userId.toString() },
+            }}
+          >
             <p> {HOME_PROFILE_NAV_BUTTON_TEXT}</p>
           </NavButton>
         </div>

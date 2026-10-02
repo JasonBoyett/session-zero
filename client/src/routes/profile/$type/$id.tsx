@@ -26,42 +26,47 @@ import {
   PROFILE_SYSTEMS_LABEL,
   PROFILE_USER_FALLBACK_NAME,
 } from "@/lib/constants"
-import type {
-  GmProfileResponse,
-  PlayerProfileResponse,
-  UserProfileResponse,
-} from "@/lib/api/generated/types"
 import type { ApiClient } from "@/lib/api/apiClient"
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 
-type ProfileType = "gm" | "player" | "user"
+const profileFetchers = {
+  gm: (apiClient: ApiClient, id: number) => apiClient.getGmProfile({ id }),
+  player: (apiClient: ApiClient, id: number) =>
+    apiClient.getPlayerProfile({ id }),
+  user: (apiClient: ApiClient, id: number) => apiClient.getUserProfile({ id }),
+}
 
-type ProfileResult =
-  | { type: "gm"; data: GmProfileResponse }
-  | { type: "player"; data: PlayerProfileResponse }
-  | { type: "user"; data: UserProfileResponse }
+type ProfileFetchers = typeof profileFetchers
+type ProfileType = keyof ProfileFetchers
 
-export const Route = createFileRoute("/profile/$profileType/$profileId")({
+type ProfileResult = {
+  [Type in ProfileType]: {
+    type: Type
+    data: Awaited<ReturnType<ProfileFetchers[Type]>>
+  }
+}[ProfileType]
+
+export const Route = createFileRoute("/profile/$type/$id")({
   component: RouteComponent,
 })
 
 function RouteComponent() {
   const context = Route.useRouteContext()
-  const { profileId, profileType } = Route.useParams()
-  const parsedProfileId = Number(profileId)
-  const isKnownProfileType = isProfileType(profileType)
-  const isValidProfileId = Number.isInteger(parsedProfileId) && parsedProfileId > 0
+  const { id, type } = Route.useParams()
+  const parsedId = Number(id)
+  const isKnownProfileType = isProfileType(type)
+  const isValidProfileId = Number.isInteger(parsedId) && parsedId > 0
 
   const profile = useQuery({
-    queryKey: [PROFILE_QUERY_KEY, profileType, profileId],
+    queryKey: [PROFILE_QUERY_KEY, type, id],
     enabled: isKnownProfileType && isValidProfileId,
     queryFn: async () => {
-      if (!isProfileType(profileType)) {
+      if (!isProfileType(type)) {
         throw new Error(PROFILE_INVALID_TYPE_TITLE)
       }
 
-      return fetchProfile(context.apiClient, profileType, parsedProfileId)
+      return fetchProfile(context.apiClient, type, parsedId)
     },
   })
 
@@ -214,32 +219,19 @@ const ProfileField = ({ label, value }: { label: string; value: string }) => {
 }
 
 const isProfileType = (
-  profileType: string,
-): profileType is ProfileType =>
-  profileType === "gm" || profileType === "player" || profileType === "user"
+  type: string,
+): type is ProfileType =>
+  Object.hasOwn(profileFetchers, type)
 
 const fetchProfile = async (
   apiClient: ApiClient,
-  profileType: ProfileType,
-  profileId: number,
+  type: ProfileType,
+  id: number,
 ): Promise<ProfileResult> => {
-  switch (profileType) {
-    case "gm":
-      return {
-        type: profileType,
-        data: await apiClient.getGmProfile({ id: profileId }),
-      }
-    case "player":
-      return {
-        type: profileType,
-        data: await apiClient.getPlayerProfile({ id: profileId }),
-      }
-    case "user":
-      return {
-        type: profileType,
-        data: await apiClient.getUserProfile({ id: profileId }),
-      }
-  }
+  return {
+    type,
+    data: await profileFetchers[type](apiClient, id),
+  } as ProfileResult
 }
 
 const initialsFor = (name: string) =>

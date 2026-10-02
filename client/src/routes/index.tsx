@@ -30,7 +30,9 @@ function Home() {
           </div>
           {isAuthenticated ? (
             <div className="flex flex-row w-full items-center justify-center">
-              <NavCluster />
+              {context.auth.data?.userId ? (
+                <NavCluster userId={context.auth.data.userId} />
+              ) : null}
             </div>
           ) : (
             <div className="w-full max-w-sm">
