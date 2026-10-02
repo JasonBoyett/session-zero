@@ -509,6 +509,7 @@
         "required": [
           "id",
           "name",
+          "system",
           "description",
           "playerCount"
         ],
@@ -517,6 +518,10 @@
             "type": "integer"
           },
           "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "system": {
             "type": "string",
             "nullable": true
           },

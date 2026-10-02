@@ -166,6 +166,7 @@ export interface components {
         GameSummary: {
             id: number;
             name: string | null;
+            system: string | null;
             description: string | null;
             playerCount: number;
         };

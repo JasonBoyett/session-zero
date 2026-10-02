@@ -49,6 +49,7 @@ module Api
             {
               id: game.id,
               name: game.name,
+              system: game.system,
               description: game.description,
               player_count: game.player_profiles.size
             }

@@ -36,6 +36,7 @@ class UserGamesTest < ActionDispatch::IntegrationTest
 
     gm_game = gm_identity.fetch("games").first
     assert_equal "Fixture Game One", gm_game.fetch("name")
+    assert_equal "Quest", gm_game.fetch("system")
     assert_equal "A fixture game for model and association tests.", gm_game.fetch("description")
     assert_equal 2, gm_game.fetch("player_count")
     assert_not gm_game.key?("gm_profile")
@@ -53,6 +54,7 @@ class UserGamesTest < ActionDispatch::IntegrationTest
     end
     assert_equal games(:two).id, player_game.fetch("id")
     assert_equal "Fixture Game Two", player_game.fetch("name")
+    assert_equal "Fate", player_game.fetch("system")
     assert_equal "Another fixture game for model and association tests.", player_game.fetch("description")
     assert_equal 2, player_game.fetch("player_count")
     assert_equal({
