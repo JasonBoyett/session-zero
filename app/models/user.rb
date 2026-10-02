@@ -69,6 +69,14 @@ class User < ApplicationRecord
     attributes.slice(*USER_VISIBLE_ATTRIBUTES)
   end
 
+  def profile_page_payload_for(viewer_id)
+    {
+      user_info: profile_attributes_for(viewer_id),
+      gm_profiles: visible_profiles_for_profile_page(game_master_profiles, viewer_id),
+      player_profiles: visible_profiles_for_profile_page(player_profiles, viewer_id)
+    }
+  end
+
   devise :recoverable,
     :rememberable,
     :omniauthable,
@@ -95,5 +103,13 @@ class User < ApplicationRecord
 
   def email_required?
     user_identities.empty?
+  end
+
+  private
+
+  def visible_profiles_for_profile_page(scope, viewer_id)
+    visible_scope = id == viewer_id ? scope : scope.where(is_user_public: true)
+
+    visible_scope.map { |profile| profile.profile_attributes_for(viewer_id) }
   end
 end

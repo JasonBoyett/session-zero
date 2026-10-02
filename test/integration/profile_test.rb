@@ -9,7 +9,7 @@ class ProfileTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  test "returns a user profile" do
+  test "returns a user profile page payload" do
     sign_in users(:one)
 
     get "/api/v1/profile/user/#{users(:one).id}"
@@ -17,18 +17,30 @@ class ProfileTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     body = JSON.parse(response.body)
+    user_info = body.fetch("user_info")
+    gm_profiles = body.fetch("gm_profiles")
+    player_profiles = body.fetch("player_profiles")
 
-    assert_equal users(:one).id, body.fetch("id")
-    assert_equal "User One", body.fetch("name")
-    assert_nil body.fetch("profile_picture")
-    assert_equal "one@example.com", body.fetch("email")
-    assert body.key?("created_at")
-    assert body.key?("updated_at")
-    assert_not body.key?("encrypted_password")
-    assert_not body.key?("reset_password_token")
+    assert_equal users(:one).id, user_info.fetch("id")
+    assert_equal "User One", user_info.fetch("name")
+    assert_nil user_info.fetch("profile_picture")
+    assert_equal "one@example.com", user_info.fetch("email")
+    assert user_info.key?("created_at")
+    assert user_info.key?("updated_at")
+    assert_not user_info.key?("encrypted_password")
+    assert_not user_info.key?("reset_password_token")
+
+    assert_equal [
+      game_master_profiles(:one).id,
+      game_master_profiles(:one_alt).id
+    ].sort, gm_profiles.map { |profile| profile.fetch("id") }.sort
+    assert_equal [
+      player_profiles(:one_in_two).id,
+      player_profiles(:one_pending_four).id
+    ].sort, player_profiles.map { |profile| profile.fetch("id") }.sort
   end
 
-  test "returns only public user profile fields to non-owners" do
+  test "returns only public user profile page fields to non-owners" do
     sign_in users(:two)
 
     get "/api/v1/profile/user/#{users(:one).id}"
@@ -36,14 +48,32 @@ class ProfileTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     body = JSON.parse(response.body)
+    user_info = body.fetch("user_info")
 
-    assert_equal users(:one).id, body.fetch("id")
-    assert_equal "User One", body.fetch("name")
-    assert_nil body.fetch("profile_picture")
-    assert_not body.key?("email")
-    assert_not body.key?("created_at")
-    assert_not body.key?("updated_at")
-    assert_not body.key?("encrypted_password")
+    assert_equal users(:one).id, user_info.fetch("id")
+    assert_equal "User One", user_info.fetch("name")
+    assert_nil user_info.fetch("profile_picture")
+    assert_not user_info.key?("email")
+    assert_not user_info.key?("created_at")
+    assert_not user_info.key?("updated_at")
+    assert_not user_info.key?("encrypted_password")
+    assert_empty body.fetch("gm_profiles")
+    assert_empty body.fetch("player_profiles")
+  end
+
+  test "returns public linked profiles on user profile pages to non-owners" do
+    sign_in users(:one)
+
+    get "/api/v1/profile/user/#{users(:two).id}"
+
+    assert_response :success
+
+    body = JSON.parse(response.body)
+
+    assert_equal [ game_master_profiles(:two).id ], body.fetch("gm_profiles").map { |profile| profile.fetch("id") }
+    assert_equal [ player_profiles(:two).id ], body.fetch("player_profiles").map { |profile| profile.fetch("id") }
+    assert body.fetch("gm_profiles").first.key?("user_id")
+    assert body.fetch("player_profiles").first.key?("user_id")
   end
 
   test "returns a gm profile" do

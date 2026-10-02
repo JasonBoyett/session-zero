@@ -89,6 +89,27 @@ RSpec.configure do |config|
               updatedAt: { type: :string, format: "date-time" }
             }
           },
+          UserProfilePageResponse: {
+            type: :object,
+            required: %w[userInfo gmProfiles playerProfiles],
+            properties: {
+              userInfo: {
+                "$ref" => "#/components/schemas/UserProfileResponse"
+              },
+              gmProfiles: {
+                type: :array,
+                items: {
+                  "$ref" => "#/components/schemas/GmProfileResponse"
+                }
+              },
+              playerProfiles: {
+                type: :array,
+                items: {
+                  "$ref" => "#/components/schemas/PlayerProfileResponse"
+                }
+              }
+            }
+          },
           GmProfileResponse: {
             type: :object,
             required: %w[id name profilePicture bio systems isUserPublic],

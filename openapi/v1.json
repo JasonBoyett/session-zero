@@ -391,7 +391,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileResponse"
+                  "$ref": "#/components/schemas/UserProfilePageResponse"
                 }
               }
             }
@@ -645,6 +645,31 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "UserProfilePageResponse": {
+        "type": "object",
+        "required": [
+          "userInfo",
+          "gmProfiles",
+          "playerProfiles"
+        ],
+        "properties": {
+          "userInfo": {
+            "$ref": "#/components/schemas/UserProfileResponse"
+          },
+          "gmProfiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GmProfileResponse"
+            }
+          },
+          "playerProfiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerProfileResponse"
+            }
           }
         }
       },

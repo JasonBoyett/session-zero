@@ -127,6 +127,12 @@ export type UserProfileResponse = {
   updatedAt?: string
 }
 
+export type UserProfilePageResponse = {
+  userInfo: UserProfileResponse
+  gmProfiles: GmProfileResponse[]
+  playerProfiles: PlayerProfileResponse[]
+}
+
 export type GmProfileResponse = {
   id: number
   userId?: number

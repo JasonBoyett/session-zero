@@ -230,6 +230,11 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
+        UserProfilePageResponse: {
+            userInfo: components["schemas"]["UserProfileResponse"];
+            gmProfiles: components["schemas"]["GmProfileResponse"][];
+            playerProfiles: components["schemas"]["PlayerProfileResponse"][];
+        };
         GmProfileResponse: {
             id: number;
             userId?: number;
@@ -591,7 +596,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["UserProfileResponse"];
+                    "application/json": components["schemas"]["UserProfilePageResponse"];
                 };
             };
             /** @description unauthenticated */

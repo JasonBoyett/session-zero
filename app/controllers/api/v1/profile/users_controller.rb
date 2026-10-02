@@ -5,7 +5,7 @@ module Api
         before_action :require_authenticated_user
 
         def show
-          render json: User.find(params[:id]).profile_attributes_for(current_user.id)
+          render json: User.find(params[:id]).profile_page_payload_for(current_user.id)
         end
 
         private

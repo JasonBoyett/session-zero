@@ -19,7 +19,7 @@ RSpec.describe "Profile API", type: :request do
       let(:id) { users(:one).id }
 
       response "200", "user profile" do
-        schema "$ref" => "#/components/schemas/UserProfileResponse"
+        schema "$ref" => "#/components/schemas/UserProfilePageResponse"
 
         before do
           sign_in users(:one)
