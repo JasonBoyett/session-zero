@@ -35,6 +35,11 @@ export const GameCard = ({
             <CardTitle className="line-clamp-2 text-xl">
               {game.name ?? USER_GAMES_UNTITLED_GAME_FALLBACK}
             </CardTitle>
+            {game.system ? (
+              <Badge className="w-fit" variant="secondary">
+                {game.system}
+              </Badge>
+            ) : null}
           </div>
           <Badge className="gap-1.5" variant="outline">
             <Users className="size-3" />

@@ -29,7 +29,7 @@ function Home() {
             <p>{WELCOME_PAGE_TEXT_2}</p>
           </div>
           {isAuthenticated ? (
-            <div className="w-full">
+            <div className="flex flex-row w-full items-center justify-center">
               <NavCluster />
             </div>
           ) : (

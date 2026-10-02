@@ -19,13 +19,15 @@ export const NavCluster = () => {
       <CardDescription className="text-xl">
         <p>{HOME_NAV_CARD_DESCRIPTION_TEXT}</p>
       </CardDescription>
-      <CardAction className="flex flex-row gap-2 p-4">
-        <NavButton navOptions={{ to: "/" }}>
-          <p> {HOME_GAMES_NAV_BUTTON_TEXT} </p>
-        </NavButton>
-        <NavButton navOptions={{ to: "/user" }}>
-          <p> {HOME_PROFILE_NAV_BUTTON_TEXT}</p>
-        </NavButton>
+      <CardAction className="items-center justify-center w-full">
+        <div className="p-4 flex flex-row gap-2">
+          <NavButton navOptions={{ to: "/user/games" }}>
+            <p> {HOME_GAMES_NAV_BUTTON_TEXT} </p>
+          </NavButton>
+          <NavButton navOptions={{ to: "/user" }}>
+            <p> {HOME_PROFILE_NAV_BUTTON_TEXT}</p>
+          </NavButton>
+        </div>
       </CardAction>
     </Card>
   )
