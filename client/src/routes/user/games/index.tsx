@@ -1,4 +1,5 @@
 import { Page } from "@/components/custom/page"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardDescription,
@@ -18,14 +19,19 @@ import {
   USER_GAMES_GAME_PLURAL,
   USER_GAMES_GAME_SINGULAR,
   USER_GAMES_GM_GAMES_TITLE,
+  USER_GAMES_HIDE_SECTION_BUTTON_TEXT,
   USER_GAMES_LOAD_ERROR_DESCRIPTION,
   USER_GAMES_LOAD_ERROR_TITLE,
   USER_GAMES_PAGE_KEY,
   USER_GAMES_PAGE_TITLE,
   USER_GAMES_PLAYER_GAMES_TITLE,
+  USER_GAMES_SHOW_SECTION_BUTTON_TEXT,
 } from "@/lib/constants"
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import { ChevronDown } from "lucide-react"
+import type { ReactNode } from "react"
+import { useState } from "react"
 
 export const Route = createFileRoute("/user/games/")({
   component: RouteComponent,
@@ -45,6 +51,9 @@ function RouteComponent() {
     ) ?? 0
   const playerGameCount = games.data?.gamesAsPlayer.length ?? 0
   const hasGames = gmGameCount > 0 || playerGameCount > 0
+
+  const [isShowingGmGames, setIsShowingGmGames] = useState(true)
+  const [isShowingPlayerGames, setIsShowingPlayerGames] = useState(true)
 
   return (
     <Page>
@@ -77,59 +86,136 @@ function RouteComponent() {
         {games.isSuccess && hasGames ? (
           <div className="grid min-w-0 gap-10">
             <section className="min-w-0 space-y-5">
-              <SectionHeading title={USER_GAMES_GM_GAMES_TITLE} />
+              <SectionHeading
+                action={
+                  <SectionVisibilityButton
+                    isShowing={isShowingGmGames}
+                    onClick={() =>
+                      setIsShowingGmGames((isShowing) => !isShowing)
+                    }
+                  />
+                }
+                title={USER_GAMES_GM_GAMES_TITLE}
+              />
 
-              {games.data.gmIdentities.length > 0 ? (
-                <div className="grid min-w-0 gap-8">
-                  {games.data.gmIdentities.map((identity) => (
-                    <section className="min-w-0 space-y-4" key={identity.id}>
-                      <ProfileHeader
-                        displayName={identity.displayName}
-                        profilePicture={identity.profilePicture}
-                        meta={`${identity.games.length} ${
-                          identity.games.length === 1
-                            ? USER_GAMES_GAME_SINGULAR
-                            : USER_GAMES_GAME_PLURAL
-                        }`}
-                      />
+              <CollapsibleSection isShowing={isShowingGmGames}>
+                {games.data.gmIdentities.length > 0 ? (
+                  <div className="grid min-w-0 gap-8">
+                    {games.data.gmIdentities.map((identity) => (
+                      <section className="min-w-0 space-y-4" key={identity.id}>
+                        <ProfileHeader
+                          displayName={identity.displayName}
+                          profilePicture={identity.profilePicture}
+                          meta={`${identity.games.length} ${
+                            identity.games.length === 1
+                              ? USER_GAMES_GAME_SINGULAR
+                              : USER_GAMES_GAME_PLURAL
+                          }`}
+                        />
 
-                      <div
-                        className="gm-games-row flex w-full min-w-0 snap-x gap-4 overflow-x-auto overscroll-x-contain pb-3"
-                        data-gm-games-row
-                      >
-                        {identity.games.map((game) => (
-                          <GameMasterGameView key={game.id} game={game} />
-                        ))}
-                      </div>
-                    </section>
-                  ))}
-                </div>
-              ) : (
-                <EmptySection message={USER_GAMES_EMPTY_GM_SECTION_MESSAGE} />
-              )}
+                        <div
+                          className="gm-games-row flex w-full min-w-0 snap-x gap-4 overflow-x-auto overscroll-x-contain pb-3"
+                          data-gm-games-row
+                        >
+                          {identity.games.map((game) => (
+                            <GameMasterGameView key={game.id} game={game} />
+                          ))}
+                        </div>
+                      </section>
+                    ))}
+                  </div>
+                ) : (
+                  <EmptySection message={USER_GAMES_EMPTY_GM_SECTION_MESSAGE} />
+                )}
+              </CollapsibleSection>
             </section>
 
             <section className="space-y-5">
-              <SectionHeading title={USER_GAMES_PLAYER_GAMES_TITLE} />
-
-              {games.data.gamesAsPlayer.length > 0 ? (
-                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                  {games.data.gamesAsPlayer.map((game) => (
-                    <PlayerGameView
-                      key={`${game.playerProfile.id}-${game.id}`}
-                      game={game}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <EmptySection
-                  message={USER_GAMES_EMPTY_PLAYER_SECTION_MESSAGE}
-                />
-              )}
+              <SectionHeading
+                action={
+                  <SectionVisibilityButton
+                    isShowing={isShowingPlayerGames}
+                    onClick={() =>
+                      setIsShowingPlayerGames((isShowing) => !isShowing)
+                    }
+                  />
+                }
+                title={USER_GAMES_PLAYER_GAMES_TITLE}
+              />
+              <CollapsibleSection isShowing={isShowingPlayerGames}>
+                {games.data.gamesAsPlayer.length > 0 ? (
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    {games.data.gamesAsPlayer.map((game) => (
+                      <PlayerGameView
+                        key={`${game.playerProfile.id}-${game.id}`}
+                        game={game}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <EmptySection
+                    message={USER_GAMES_EMPTY_PLAYER_SECTION_MESSAGE}
+                  />
+                )}
+              </CollapsibleSection>
             </section>
           </div>
         ) : null}
       </main>
     </Page>
+  )
+}
+
+const CollapsibleSection = ({
+  children,
+  isShowing,
+}: {
+  children: ReactNode
+  isShowing: boolean
+}) => {
+  return (
+    <div
+      aria-hidden={!isShowing}
+      className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+        isShowing ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+      }`}
+    >
+      <div className="min-h-0 overflow-hidden">
+        <div
+          className={`transition-transform duration-300 ease-out ${
+            isShowing ? "translate-y-0" : "-translate-y-2"
+          }`}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const SectionVisibilityButton = ({
+  isShowing,
+  onClick,
+}: {
+  isShowing: boolean
+  onClick: () => void
+}) => {
+  return (
+    <Button
+      aria-expanded={isShowing}
+      onClick={onClick}
+      size="sm"
+      type="button"
+      variant="outline"
+    >
+      {isShowing
+        ? USER_GAMES_HIDE_SECTION_BUTTON_TEXT
+        : USER_GAMES_SHOW_SECTION_BUTTON_TEXT}
+      <ChevronDown
+        className={`transition-transform duration-300 ${
+          isShowing ? "rotate-180" : "rotate-0"
+        }`}
+      />
+    </Button>
   )
 }

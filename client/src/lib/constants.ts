@@ -38,6 +38,8 @@ export const USER_GAMES_EMPTY_STATE_DESCRIPTION =
 export const USER_GAMES_UNNAMED_PROFILE_FALLBACK = "Unnamed profile"
 export const USER_GAMES_GAME_SINGULAR = "game"
 export const USER_GAMES_GAME_PLURAL = "games"
+export const USER_GAMES_HIDE_SECTION_BUTTON_TEXT = "Hide"
+export const USER_GAMES_SHOW_SECTION_BUTTON_TEXT = "Show"
 
 // profile page text
 export const PROFILE_QUERY_KEY = "profile"

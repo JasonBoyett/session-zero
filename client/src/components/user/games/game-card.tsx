@@ -36,7 +36,10 @@ export const GameCard = ({
               {game.name ?? USER_GAMES_UNTITLED_GAME_FALLBACK}
             </CardTitle>
             {game.system ? (
-              <Badge className="w-fit" variant="secondary">
+              <Badge
+                className="w-fit border-border/80"
+                variant="secondary"
+              >
                 {game.system}
               </Badge>
             ) : null}
