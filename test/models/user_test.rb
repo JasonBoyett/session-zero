@@ -24,4 +24,34 @@ class UserTest < ActiveSupport::TestCase
     user.profile_picture = nil
     assert user.valid?
   end
+
+  test "profile attributes for owner include owner fields and exclude auth fields" do
+    user = users(:one)
+
+    attributes = user.profile_attributes_for(user.id)
+
+    assert_equal user.id, attributes.fetch("id")
+    assert_equal user.email, attributes.fetch("email")
+    assert attributes.key?("created_at")
+    assert attributes.key?("updated_at")
+    assert_not attributes.key?("encrypted_password")
+    assert_not attributes.key?("remember_created_at")
+    assert_not attributes.key?("reset_password_sent_at")
+    assert_not attributes.key?("reset_password_token")
+  end
+
+  test "profile attributes for non-owner exclude owner fields and auth fields" do
+    user = users(:one)
+
+    attributes = user.profile_attributes_for(users(:two).id)
+
+    assert_equal user.id, attributes.fetch("id")
+    assert_not attributes.key?("email")
+    assert_not attributes.key?("created_at")
+    assert_not attributes.key?("updated_at")
+    assert_not attributes.key?("encrypted_password")
+    assert_not attributes.key?("remember_created_at")
+    assert_not attributes.key?("reset_password_sent_at")
+    assert_not attributes.key?("reset_password_token")
+  end
 end

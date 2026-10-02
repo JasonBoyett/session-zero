@@ -15,6 +15,12 @@ Rails.application.routes.draw do
   # root "posts#index"
   namespace :api do
     namespace :v1 do
+      namespace :profile do
+        get "user/:id", to: "users#show"
+        get "gm/:id", to: "gms#show"
+        get "player/:id", to: "players#show"
+      end
+
       namespace :auth do
         post :login, to: "sessions#create"
         resource :session, only: %i[show create destroy]

@@ -77,6 +77,59 @@ RSpec.configure do |config|
               profilePicture: { type: :string, nullable: true }
             }
           },
+          UserProfileResponse: {
+            type: :object,
+            required: %w[id name profilePicture],
+            properties: {
+              id: { type: :integer },
+              name: { type: :string, nullable: true },
+              profilePicture: { type: :string, nullable: true },
+              email: { type: :string, nullable: true },
+              createdAt: { type: :string, format: "date-time" },
+              updatedAt: { type: :string, format: "date-time" }
+            }
+          },
+          GmProfileResponse: {
+            type: :object,
+            required: %w[id name profilePicture bio systems isUserPublic],
+            properties: {
+              id: { type: :integer },
+              userId: { type: :integer },
+              name: { type: :string, nullable: true },
+              profilePicture: { type: :string, nullable: true },
+              bio: { type: :string, nullable: true },
+              systems: {
+                type: :array,
+                items: { type: :string }
+              },
+              isUserPublic: { type: :boolean },
+              createdAt: { type: :string, format: "date-time" },
+              lastUsedAt: { type: :string, format: "date-time" }
+            }
+          },
+          PlayerProfileResponse: {
+            type: :object,
+            required: %w[
+              id
+              characterName
+              characterImage
+              characterDescription
+              isAccepted
+              isUserPublic
+            ],
+            properties: {
+              id: { type: :integer },
+              userId: { type: :integer },
+              characterName: { type: :string, nullable: true },
+              characterImage: { type: :string, nullable: true },
+              characterDescription: { type: :string, nullable: true },
+              characterSheetLink: { type: :string, nullable: true },
+              isAccepted: { type: :boolean },
+              isUserPublic: { type: :boolean },
+              createdAt: { type: :string, format: "date-time" },
+              lastUsedAt: { type: :string, format: "date-time" }
+            }
+          },
           GameSummary: {
             type: :object,
             required: %w[id name system description playerCount],

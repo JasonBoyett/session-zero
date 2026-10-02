@@ -126,6 +126,63 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/profile/user/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        /** Shows a user profile */
+        get: operations["getUserProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/profile/gm/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        /** Shows a GM profile */
+        get: operations["getGmProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/profile/player/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        /** Shows a player profile */
+        get: operations["getPlayerProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -162,6 +219,43 @@ export interface components {
             id: number;
             displayName: string | null;
             profilePicture: string | null;
+        };
+        UserProfileResponse: {
+            id: number;
+            name: string | null;
+            profilePicture: string | null;
+            email?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        GmProfileResponse: {
+            id: number;
+            userId?: number;
+            name: string | null;
+            profilePicture: string | null;
+            bio: string | null;
+            systems: string[];
+            isUserPublic: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            lastUsedAt?: string;
+        };
+        PlayerProfileResponse: {
+            id: number;
+            userId?: number;
+            characterName: string | null;
+            characterImage: string | null;
+            characterDescription: string | null;
+            characterSheetLink?: string | null;
+            isAccepted: boolean;
+            isUserPublic: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            lastUsedAt?: string;
         };
         GameSummary: {
             id: number;
@@ -473,6 +567,114 @@ export interface operations {
             };
             /** @description unauthenticated */
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getUserProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description user profile */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserProfileResponse"];
+                };
+            };
+            /** @description unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description missing user profile */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getGmProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GM profile */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GmProfileResponse"];
+                };
+            };
+            /** @description unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description missing GM profile */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getPlayerProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description player profile */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlayerProfileResponse"];
+                };
+            };
+            /** @description unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description missing player profile */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

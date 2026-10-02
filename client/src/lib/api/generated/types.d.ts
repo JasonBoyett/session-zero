@@ -74,6 +74,15 @@ export type ApiOperationRequestData<TOperationId extends ApiOperationId> =
     ? Body
     : never
 
+export type ApiOperationPathData<TOperationId extends ApiOperationId> =
+  operations[TOperationId] extends {
+    parameters: {
+      path: infer PathParameters
+    }
+  }
+    ? PathParameters
+    : never
+
 export type AuthResponse = {
   authenticated: boolean
   csrfToken: string
@@ -107,6 +116,40 @@ export type ProfileSummary = {
   id: number
   displayName: string | null
   profilePicture: string | null
+}
+
+export type UserProfileResponse = {
+  id: number
+  name: string | null
+  profilePicture: string | null
+  email?: string | null
+  createdAt?: string
+  updatedAt?: string
+}
+
+export type GmProfileResponse = {
+  id: number
+  userId?: number
+  name: string | null
+  profilePicture: string | null
+  bio: string | null
+  systems: string[]
+  isUserPublic: boolean
+  createdAt?: string
+  lastUsedAt?: string
+}
+
+export type PlayerProfileResponse = {
+  id: number
+  userId?: number
+  characterName: string | null
+  characterImage: string | null
+  characterDescription: string | null
+  characterSheetLink?: string | null
+  isAccepted: boolean
+  isUserPublic: boolean
+  createdAt?: string
+  lastUsedAt?: string
 }
 
 export type GameSummary = {

@@ -12,6 +12,7 @@ two:
   name: Fixture Oracle
   bio: A mystery-focused GM profile owned by User Two.
   profile_picture: https://example.com/gm-fixture-oracle.png
+  is_user_public: true
   systems:
     - Fate
   user: two

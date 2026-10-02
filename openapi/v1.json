@@ -367,6 +367,117 @@
           }
         }
       }
+    },
+    "/profile/user/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Shows a user profile",
+        "operationId": "getUserProfile",
+        "tags": [
+          "Profile"
+        ],
+        "responses": {
+          "200": {
+            "description": "user profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "unauthenticated"
+          },
+          "404": {
+            "description": "missing user profile"
+          }
+        }
+      }
+    },
+    "/profile/gm/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Shows a GM profile",
+        "operationId": "getGmProfile",
+        "tags": [
+          "Profile"
+        ],
+        "responses": {
+          "200": {
+            "description": "GM profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GmProfileResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "unauthenticated"
+          },
+          "404": {
+            "description": "missing GM profile"
+          }
+        }
+      }
+    },
+    "/profile/player/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Shows a player profile",
+        "operationId": "getPlayerProfile",
+        "tags": [
+          "Profile"
+        ],
+        "responses": {
+          "200": {
+            "description": "player profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayerProfileResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "unauthenticated"
+          },
+          "404": {
+            "description": "missing player profile"
+          }
+        }
+      }
     }
   },
   "servers": [
@@ -501,6 +612,136 @@
           "profilePicture": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "UserProfileResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "profilePicture"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GmProfileResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "profilePicture",
+          "bio",
+          "systems",
+          "isUserPublic"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "userId": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          },
+          "bio": {
+            "type": "string",
+            "nullable": true
+          },
+          "systems": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isUserPublic": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUsedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PlayerProfileResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "characterName",
+          "characterImage",
+          "characterDescription",
+          "isAccepted",
+          "isUserPublic"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "userId": {
+            "type": "integer"
+          },
+          "characterName": {
+            "type": "string",
+            "nullable": true
+          },
+          "characterImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "characterDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "characterSheetLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAccepted": {
+            "type": "boolean"
+          },
+          "isUserPublic": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUsedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

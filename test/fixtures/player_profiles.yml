@@ -14,6 +14,7 @@ two:
   character_description: A player profile for User Two.
   character_image: https://example.com/fixture-wanderer.png
   character_sheet_link: https://example.com/sheets/fixture-wanderer
+  is_user_public: true
   is_accepted: true
   user: two
   game: two

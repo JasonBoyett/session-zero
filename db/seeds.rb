@@ -23,11 +23,12 @@ def seed_user!(email:, name:, avatar_seed:)
   user
 end
 
-def seed_gm_profile!(user:, name:, bio:, systems:, avatar_seed:)
+def seed_gm_profile!(user:, name:, bio:, systems:, avatar_seed:, is_user_public: false)
   profile = user.game_master_profiles.find_or_initialize_by(name:)
   profile.bio = bio
   profile.systems = systems
   profile.profile_picture = "#{AVATAR_BASE_URL}?seed=#{avatar_seed}"
+  profile.is_user_public = is_user_public
   profile.save!
   profile
 end
@@ -48,12 +49,14 @@ def seed_player_profile!(
   character_description:,
   character_sheet_link:,
   character_image_seed:,
+  is_user_public: false,
   is_accepted:
 )
   profile = PlayerProfile.find_or_initialize_by(user:, game:, character_name:)
   profile.character_description = character_description
   profile.character_sheet_link = character_sheet_link
   profile.character_image = "#{AVATAR_BASE_URL}?seed=#{character_image_seed}"
+  profile.is_user_public = is_user_public
   profile.is_accepted = is_accepted
   profile.save!
   profile
@@ -124,7 +127,8 @@ gm_profiles = {
     name: "Rowan Hearth",
     bio: "Warm, family-friendly GM who loves gentle stakes, brave kids, talking animals, clear table expectations, and safety tools that are easy to use.",
     systems: [ "Quest", "Tiny Dungeon", "Dungeons and Dragons 5e" ],
-    avatar_seed: "Rowan Hearth"
+    avatar_seed: "Rowan Hearth",
+    is_user_public: true
   ),
   bloodletter: seed_gm_profile!(
     user: users[:developer],
@@ -308,6 +312,7 @@ players[:juno] = seed_player_profile!(
   character_description: "A systems tech who keeps hearing their dead sibling in the station alarms.",
   character_sheet_link: "https://example.com/sheets/juno-calder",
   character_image_seed: "Juno Calder",
+  is_user_public: true,
   is_accepted: true
 )
 players[:iox] = seed_player_profile!(

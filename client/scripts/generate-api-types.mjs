@@ -182,7 +182,13 @@ const operationEntries = Object.entries(openApi.paths ?? {}).flatMap(
       if (route.startsWith("/auth/oauth/")) return []
       if (operation["x-browser-only"]) return []
 
-      const parameters = operation.parameters ?? []
+      const parameters = [
+        ...(pathItem.parameters ?? []),
+        ...(operation.parameters ?? []),
+      ]
+      const pathParams = parameters
+        .filter((parameter) => parameter?.in === "path")
+        .map((parameter) => parameter.name)
       const requiresCsrf = parameters.some((parameter) => {
         if (parameter?.$ref === "#/components/parameters/CsrfToken") return true
 
@@ -196,6 +202,7 @@ const operationEntries = Object.entries(openApi.paths ?? {}).flatMap(
             route,
             method,
             hasBody: Boolean(operation.requestBody),
+            pathParams,
             requiresCsrf,
           },
         ],
@@ -288,6 +295,15 @@ export type ApiOperationRequestData<TOperationId extends ApiOperationId> =
     }
   }
     ? Body
+    : never
+
+export type ApiOperationPathData<TOperationId extends ApiOperationId> =
+  operations[TOperationId] extends {
+    parameters: {
+      path: infer PathParameters
+    }
+  }
+    ? PathParameters
     : never
 
 ${aliases}

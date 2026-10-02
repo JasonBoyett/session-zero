@@ -1,9 +1,22 @@
 class User < ApplicationRecord
+  include ProfileRepresentable
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and
   # :omniauthable
 
   UPDATABLE_ATTRIBUTES = %w[name profile_picture].freeze
+  self.api_only_attributes = %w[
+    encrypted_password
+    remember_created_at
+    reset_password_sent_at
+    reset_password_token
+  ].freeze
+  self.owner_only_attributes = %w[
+    email
+    created_at
+    updated_at
+  ].freeze
 
   PUBLIC_ATTRIBUTES = %w[
     id

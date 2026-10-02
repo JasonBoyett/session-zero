@@ -4,6 +4,7 @@ import { apiOperations } from "@api/generated/operations"
 import type {
   ApiOperationRequestData,
   ApiOperationResponseData,
+  ApiOperationPathData,
   ApiRoute,
   AuthResponse,
   HttpMethod,
@@ -16,10 +17,20 @@ const CSRF_HEADER = "X-CSRF-Token"
 
 type ApiClientOperationId = keyof typeof apiOperations
 
+type HasPathParams<TOperationId extends ApiClientOperationId> =
+  (typeof apiOperations)[TOperationId]["pathParams"] extends readonly []
+    ? false
+    : true
+
 type ApiClientMethod<TOperationId extends ApiClientOperationId> =
   (typeof apiOperations)[TOperationId]["hasBody"] extends true
   ? (
     data: ApiOperationRequestData<TOperationId>,
+    config?: AxiosRequestConfig,
+  ) => Promise<ApiOperationResponseData<TOperationId>>
+  : HasPathParams<TOperationId> extends true
+  ? (
+    data: ApiOperationPathData<TOperationId>,
     config?: AxiosRequestConfig,
   ) => Promise<ApiOperationResponseData<TOperationId>>
   : (
@@ -87,6 +98,22 @@ const request = <TResponseData>(
   }
 }
 
+const routeWithPathParams = (
+  route: ApiRoute,
+  params: Record<string, string | number> | undefined,
+) => {
+  if (!params) return route
+
+  return Object.entries(params).reduce(
+    (resolvedRoute, [name, value]) =>
+      resolvedRoute.replace(
+        `{${name}}`,
+        encodeURIComponent(String(value)),
+      ) as ApiRoute,
+    route,
+  )
+}
+
 const refreshSession = async () => {
   const response = await request<AuthResponse>("/auth/session", "get")
 
@@ -107,19 +134,27 @@ const getCsrfToken = async () => {
 
 const requestOperation = async <TOperationId extends ApiClientOperationId>(
   operationId: TOperationId,
-  data: ApiOperationRequestData<TOperationId> | undefined,
+  data:
+    | ApiOperationRequestData<TOperationId>
+    | ApiOperationPathData<TOperationId>
+    | undefined,
   config: AxiosRequestConfig | undefined,
   retry = true,
 ): Promise<ApiOperationResponseData<TOperationId>> => {
   const metadata = apiOperations[operationId]
   const csrfToken = metadata.requiresCsrf ? await getCsrfToken() : null
   const responseConfig = csrfToken ? withCsrfToken(csrfToken, config) : config
+  const hasPathParams = metadata.pathParams.length > 0
+  const route = routeWithPathParams(
+    metadata.route,
+    hasPathParams ? (data as Record<string, string | number>) : undefined,
+  )
 
   try {
     const response = await request<ApiOperationResponseData<TOperationId>>(
-      metadata.route,
+      route,
       metadata.method,
-      data,
+      hasPathParams ? undefined : data,
       responseConfig,
     )
 
@@ -155,6 +190,10 @@ const createApiClientMethods = () => {
 
     methods[operationId] = (...args: [unknown?, AxiosRequestConfig?]) => {
       if (metadata.hasBody) {
+        return requestOperation(operationId, args[0] as never, args[1])
+      }
+
+      if (metadata.pathParams.length > 0) {
         return requestOperation(operationId, args[0] as never, args[1])
       }
 

@@ -39,6 +39,26 @@ export const USER_GAMES_UNNAMED_PROFILE_FALLBACK = "Unnamed profile"
 export const USER_GAMES_GAME_SINGULAR = "game"
 export const USER_GAMES_GAME_PLURAL = "games"
 
+// profile page text
+export const PROFILE_QUERY_KEY = "profile"
+export const PROFILE_INVALID_TYPE_TITLE = "Unknown profile type"
+export const PROFILE_INVALID_TYPE_DESCRIPTION =
+  "This profile link does not match a profile type Session Zero can show."
+export const PROFILE_LOAD_ERROR_TITLE = "Could not load profile"
+export const PROFILE_LOAD_ERROR_DESCRIPTION =
+  "Refresh the page and try again. If it keeps happening, the profile may not exist or you may not have access to it."
+export const PROFILE_LOADING_TITLE = "Loading profile"
+export const PROFILE_USER_FALLBACK_NAME = "Unnamed user"
+export const PROFILE_GM_FALLBACK_NAME = "Unnamed GM"
+export const PROFILE_PLAYER_FALLBACK_NAME = "Unnamed player"
+export const PROFILE_BIO_LABEL = "Bio"
+export const PROFILE_SYSTEMS_LABEL = "Systems"
+export const PROFILE_CHARACTER_DESCRIPTION_LABEL = "Character"
+export const PROFILE_CHARACTER_SHEET_LABEL = "Character sheet"
+export const PROFILE_ACCEPTED_LABEL = "Accepted"
+export const PROFILE_PENDING_LABEL = "Pending"
+export const PROFILE_EMPTY_VALUE = "Not provided"
+
 // Error messages
 export const PRODUCTION_PASSWORD_AUTH_REJECTED_MESSAGE =
   "Password authentication is disabled in production"

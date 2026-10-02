@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
+import { Route as ProfileProfileTypeProfileIdRouteImport } from './routes/profile/$profileType/$profileId'
 import { Route as UserGamesIndexRouteImport } from './routes/user/games/index'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,12 @@ const UserIndexRoute = UserIndexRouteImport.update({
   path: '/user/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfileProfileTypeProfileIdRoute =
+  ProfileProfileTypeProfileIdRouteImport.update({
+    id: '/profile/$profileType/$profileId',
+    path: '/profile/$profileType/$profileId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const UserGamesIndexRoute = UserGamesIndexRouteImport.update({
   id: '/user/games/',
   path: '/user/games/',
@@ -46,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/login/': typeof LoginIndexRoute
   '/user/': typeof UserIndexRoute
+  '/profile/$profileType/$profileId': typeof ProfileProfileTypeProfileIdRoute
   '/user/games/': typeof UserGamesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +61,7 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof AuthCallbackRoute
   '/login': typeof LoginIndexRoute
   '/user': typeof UserIndexRoute
+  '/profile/$profileType/$profileId': typeof ProfileProfileTypeProfileIdRoute
   '/user/games': typeof UserGamesIndexRoute
 }
 export interface FileRoutesById {
@@ -61,15 +70,34 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/login/': typeof LoginIndexRoute
   '/user/': typeof UserIndexRoute
+  '/profile/$profileType/$profileId': typeof ProfileProfileTypeProfileIdRoute
   '/user/games/': typeof UserGamesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/callback' | '/login/' | '/user/' | '/user/games/'
+  fullPaths:
+    | '/'
+    | '/auth/callback'
+    | '/login/'
+    | '/user/'
+    | '/profile/$profileType/$profileId'
+    | '/user/games/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/callback' | '/login' | '/user' | '/user/games'
+  to:
+    | '/'
+    | '/auth/callback'
+    | '/login'
+    | '/user'
+    | '/profile/$profileType/$profileId'
+    | '/user/games'
   id:
-    '__root__' | '/' | '/auth/callback' | '/login/' | '/user/' | '/user/games/'
+    | '__root__'
+    | '/'
+    | '/auth/callback'
+    | '/login/'
+    | '/user/'
+    | '/profile/$profileType/$profileId'
+    | '/user/games/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +105,7 @@ export interface RootRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
   LoginIndexRoute: typeof LoginIndexRoute
   UserIndexRoute: typeof UserIndexRoute
+  ProfileProfileTypeProfileIdRoute: typeof ProfileProfileTypeProfileIdRoute
   UserGamesIndexRoute: typeof UserGamesIndexRoute
 }
 
@@ -110,6 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile/$profileType/$profileId': {
+      id: '/profile/$profileType/$profileId'
+      path: '/profile/$profileType/$profileId'
+      fullPath: '/profile/$profileType/$profileId'
+      preLoaderRoute: typeof ProfileProfileTypeProfileIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/user/games/': {
       id: '/user/games/'
       path: '/user/games'
@@ -125,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
   LoginIndexRoute: LoginIndexRoute,
   UserIndexRoute: UserIndexRoute,
+  ProfileProfileTypeProfileIdRoute: ProfileProfileTypeProfileIdRoute,
   UserGamesIndexRoute: UserGamesIndexRoute,
 }
 export const routeTree = rootRouteImport

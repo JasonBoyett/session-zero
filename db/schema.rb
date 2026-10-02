@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_29_010617) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_30_023000) do
   create_table "conversations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -27,6 +27,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_010617) do
   create_table "game_master_profiles", force: :cascade do |t|
     t.text "bio"
     t.datetime "created_at", null: false
+    t.boolean "is_user_public", default: false, null: false
     t.datetime "last_used_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "name"
     t.string "profile_picture"
@@ -80,6 +81,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_010617) do
     t.datetime "created_at", null: false
     t.integer "game_id", null: false
     t.boolean "is_accepted", default: false
+    t.boolean "is_user_public", default: false, null: false
     t.datetime "last_used_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
