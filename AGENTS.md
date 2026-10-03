@@ -44,6 +44,26 @@ The app should help groups align on campaign expectations, tone, boundaries, saf
 - Keep operation IDs stable unless intentionally changing the client API.
 - Keep browser-only OAuth operations documented in OpenAPI, but do not force them into the generated Axios operation map.
 
+## OpenAPI Schema Conventions
+
+- Define reusable OpenAPI component schemas as individual Ruby files under `spec/schemas/`.
+- Organize schema files into domain-oriented subdirectories. Directory structure is for organization only and does not affect the generated OpenAPI component name.
+- A schema's filename is its OpenAPI component identity. `snake_case` filenames are converted to CamelCase with Rails inflection. For example, `spec/schemas/profile/response/gm_profile_response.rb` defines `GmProfileResponse`.
+- Schema filenames must be globally unique across `spec/schemas/`, regardless of directory. Do not rely on directory namespaces to distinguish schemas.
+- Do not manually register schemas in `swagger_helper.rb`. `SwaggerSchemaLoader` recursively discovers every `.rb` file under `spec/schemas/`; creating the file registers the schema.
+- Schema files should evaluate directly to a Ruby `Hash` containing the OpenAPI schema definition. Do not add modules, classes, constants, or registration boilerplate unless the schema system is intentionally being redesigned.
+- Prefer standard schema suffixes that communicate purpose:
+  - `*_request.rb` for request payloads.
+  - `*_response.rb` for endpoint responses.
+  - `*_summary.rb` for smaller embedded representations.
+  - Context-specific names such as `*_as_gm.rb` or `*_as_player.rb` when the representation changes by role or context.
+- Compose schemas with normal OpenAPI `$ref`, `allOf`, `oneOf`, and related constructs rather than duplicating shared definitions.
+- `SwaggerSchemaLoader` validates schema files before Rswag generation. Unknown top-level schema keys, malformed schema structure, duplicate component names, and files that do not evaluate to a `Hash` should fail immediately.
+- OpenAPI extension keys beginning with `x-` are allowed.
+- Keep loader validation focused on catching local authoring mistakes. Do not reimplement full OpenAPI validation in `SwaggerSchemaLoader`.
+- When changing the public API contract, update the relevant Rswag request spec and component schema, then run `bin/generate-api`.
+- Never manually edit generated OpenAPI or TypeScript API artifacts when the source Rswag spec or schema definition can be changed instead.
+
 ## Frontend Conventions
 
 - Use TanStack Router file routes.

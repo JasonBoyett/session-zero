@@ -200,41 +200,32 @@ export interface components {
         ErrorResponse: {
             error: string;
         };
-        CurrentUserResponse: {
+        GameSummary: {
             id: number;
-            /** Format: email */
-            email: string | null;
             name: string | null;
-            profilePicture: string | null;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
+            system: string | null;
+            description: string | null;
+            playerCount: number;
         };
-        UpdateCurrentUserRequest: {
-            name?: string | null;
-            profilePicture?: string | null;
+        GameSummaryAsGm: components["schemas"]["GameSummary"];
+        GameSummaryAsPlayer: components["schemas"]["GameSummary"] & {
+            playerProfile: components["schemas"]["ProfileSummary"];
+            gmProfile: components["schemas"]["ProfileSummary"];
+        };
+        GamesIndexResponse: {
+            gmIdentities: components["schemas"]["GmIdentitySummary"][];
+            gamesAsPlayer: components["schemas"]["GameSummaryAsPlayer"][];
+        };
+        GmIdentitySummary: {
+            id: number;
+            displayName: string | null;
+            profilePicture: string | null;
+            games: components["schemas"]["GameSummaryAsGm"][];
         };
         ProfileSummary: {
             id: number;
             displayName: string | null;
             profilePicture: string | null;
-        };
-        UserProfileResponse: {
-            id: number;
-            name: string | null;
-            profilePicture: string | null;
-            email?: string | null;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
-            canEdit?: boolean;
-        };
-        UserProfilePageResponse: {
-            userInfo: components["schemas"]["UserProfileResponse"];
-            gmProfiles: components["schemas"]["GmProfileResponse"][];
-            playerProfiles: components["schemas"]["PlayerProfileResponse"][];
         };
         GmProfileResponse: {
             id: number;
@@ -249,6 +240,11 @@ export interface components {
             /** Format: date-time */
             lastUsedAt?: string;
             canEdit?: boolean;
+        };
+        UserProfilePageResponse: {
+            userInfo: components["schemas"]["UserProfileResponse"];
+            gmProfiles: components["schemas"]["GmProfileResponse"][];
+            playerProfiles: components["schemas"]["PlayerProfileResponse"][];
         };
         PlayerProfileResponse: {
             id: number;
@@ -265,27 +261,31 @@ export interface components {
             lastUsedAt?: string;
             canEdit?: boolean;
         };
-        GameSummary: {
+        UserProfileResponse: {
             id: number;
             name: string | null;
-            system: string | null;
-            description: string | null;
-            playerCount: number;
-        };
-        GameSummaryAsGm: components["schemas"]["GameSummary"];
-        GameSummaryAsPlayer: components["schemas"]["GameSummary"] & {
-            playerProfile: components["schemas"]["ProfileSummary"];
-            gmProfile: components["schemas"]["ProfileSummary"];
-        };
-        GmIdentitySummary: {
-            id: number;
-            displayName: string | null;
             profilePicture: string | null;
-            games: components["schemas"]["GameSummaryAsGm"][];
+            email?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            canEdit?: boolean;
         };
-        GamesIndexResponse: {
-            gmIdentities: components["schemas"]["GmIdentitySummary"][];
-            gamesAsPlayer: components["schemas"]["GameSummaryAsPlayer"][];
+        CurrentUserResponse: {
+            id: number;
+            /** Format: email */
+            email: string | null;
+            name: string | null;
+            profilePicture: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        UpdateCurrentUserRequest: {
+            name?: string | null;
+            profilePicture?: string | null;
         };
     };
     responses: never;

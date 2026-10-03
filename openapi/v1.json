@@ -544,241 +544,6 @@
           }
         }
       },
-      "CurrentUserResponse": {
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "profilePicture",
-          "email",
-          "createdAt",
-          "updatedAt"
-        ],
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "profilePicture": {
-            "type": "string",
-            "nullable": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "UpdateCurrentUserRequest": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "profilePicture": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "ProfileSummary": {
-        "type": "object",
-        "required": [
-          "id",
-          "displayName",
-          "profilePicture"
-        ],
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "displayName": {
-            "type": "string",
-            "nullable": true
-          },
-          "profilePicture": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "UserProfileResponse": {
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "profilePicture"
-        ],
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "profilePicture": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "canEdit": {
-            "type": "boolean"
-          }
-        }
-      },
-      "UserProfilePageResponse": {
-        "type": "object",
-        "required": [
-          "userInfo",
-          "gmProfiles",
-          "playerProfiles"
-        ],
-        "properties": {
-          "userInfo": {
-            "$ref": "#/components/schemas/UserProfileResponse"
-          },
-          "gmProfiles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GmProfileResponse"
-            }
-          },
-          "playerProfiles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PlayerProfileResponse"
-            }
-          }
-        }
-      },
-      "GmProfileResponse": {
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "profilePicture",
-          "bio",
-          "systems",
-          "isUserPublic"
-        ],
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "userId": {
-            "type": "integer"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "profilePicture": {
-            "type": "string",
-            "nullable": true
-          },
-          "bio": {
-            "type": "string",
-            "nullable": true
-          },
-          "systems": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "isUserPublic": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "lastUsedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "canEdit": {
-            "type": "boolean"
-          }
-        }
-      },
-      "PlayerProfileResponse": {
-        "type": "object",
-        "required": [
-          "id",
-          "characterName",
-          "characterImage",
-          "characterDescription",
-          "isAccepted",
-          "isUserPublic"
-        ],
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "userId": {
-            "type": "integer"
-          },
-          "characterName": {
-            "type": "string",
-            "nullable": true
-          },
-          "characterImage": {
-            "type": "string",
-            "nullable": true
-          },
-          "characterDescription": {
-            "type": "string",
-            "nullable": true
-          },
-          "characterSheetLink": {
-            "type": "string",
-            "nullable": true
-          },
-          "isAccepted": {
-            "type": "boolean"
-          },
-          "isUserPublic": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "lastUsedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "canEdit": {
-            "type": "boolean"
-          }
-        }
-      },
       "GameSummary": {
         "type": "object",
         "required": [
@@ -838,6 +603,32 @@
           }
         ]
       },
+      "GamesIndexResponse": {
+        "type": "object",
+        "x-type-aliases": {
+          "GamesIndexGmIdentity": "gmIdentities[number]",
+          "GamesIndexGameAsGm": "gmIdentities[number].games[number]",
+          "GamesIndexGameAsPlayer": "gamesAsPlayer[number]"
+        },
+        "required": [
+          "gmIdentities",
+          "gamesAsPlayer"
+        ],
+        "properties": {
+          "gmIdentities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GmIdentitySummary"
+            }
+          },
+          "gamesAsPlayer": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameSummaryAsPlayer"
+            }
+          }
+        }
+      },
       "GmIdentitySummary": {
         "type": "object",
         "required": [
@@ -866,29 +657,238 @@
           }
         }
       },
-      "GamesIndexResponse": {
+      "ProfileSummary": {
         "type": "object",
-        "x-type-aliases": {
-          "GamesIndexGmIdentity": "gmIdentities[number]",
-          "GamesIndexGameAsGm": "gmIdentities[number].games[number]",
-          "GamesIndexGameAsPlayer": "gamesAsPlayer[number]"
-        },
         "required": [
-          "gmIdentities",
-          "gamesAsPlayer"
+          "id",
+          "displayName",
+          "profilePicture"
         ],
         "properties": {
-          "gmIdentities": {
+          "id": {
+            "type": "integer"
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GmProfileResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "profilePicture",
+          "bio",
+          "systems",
+          "isUserPublic"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "userId": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          },
+          "bio": {
+            "type": "string",
+            "nullable": true
+          },
+          "systems": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/GmIdentitySummary"
+              "type": "string"
             }
           },
-          "gamesAsPlayer": {
+          "isUserPublic": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUsedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "canEdit": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserProfilePageResponse": {
+        "type": "object",
+        "required": [
+          "userInfo",
+          "gmProfiles",
+          "playerProfiles"
+        ],
+        "properties": {
+          "userInfo": {
+            "$ref": "#/components/schemas/UserProfileResponse"
+          },
+          "gmProfiles": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/GameSummaryAsPlayer"
+              "$ref": "#/components/schemas/GmProfileResponse"
             }
+          },
+          "playerProfiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerProfileResponse"
+            }
+          }
+        }
+      },
+      "PlayerProfileResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "characterName",
+          "characterImage",
+          "characterDescription",
+          "isAccepted",
+          "isUserPublic"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "userId": {
+            "type": "integer"
+          },
+          "characterName": {
+            "type": "string",
+            "nullable": true
+          },
+          "characterImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "characterDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "characterSheetLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAccepted": {
+            "type": "boolean"
+          },
+          "isUserPublic": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUsedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "canEdit": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserProfileResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "profilePicture"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "canEdit": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "profilePicture",
+          "email",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdateCurrentUserRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
           }
         }
       }

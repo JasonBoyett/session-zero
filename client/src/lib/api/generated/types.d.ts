@@ -98,40 +98,37 @@ export type ErrorResponse = {
   error: string
 }
 
-export type CurrentUserResponse = {
+export type GameSummary = {
   id: number
-  email: string | null
   name: string | null
-  profilePicture: string | null
-  createdAt: string
-  updatedAt: string
+  system: string | null
+  description: string | null
+  playerCount: number
 }
 
-export type UpdateCurrentUserRequest = {
-  name?: string | null
-  profilePicture?: string | null
+export type GameSummaryAsGm = GameSummary
+
+export type GameSummaryAsPlayer = GameSummary & {
+  playerProfile: ProfileSummary
+  gmProfile: ProfileSummary
+}
+
+export type GamesIndexResponse = {
+  gmIdentities: GmIdentitySummary[]
+  gamesAsPlayer: GameSummaryAsPlayer[]
+}
+
+export type GmIdentitySummary = {
+  id: number
+  displayName: string | null
+  profilePicture: string | null
+  games: GameSummaryAsGm[]
 }
 
 export type ProfileSummary = {
   id: number
   displayName: string | null
   profilePicture: string | null
-}
-
-export type UserProfileResponse = {
-  id: number
-  name: string | null
-  profilePicture: string | null
-  email?: string | null
-  createdAt?: string
-  updatedAt?: string
-  canEdit?: boolean
-}
-
-export type UserProfilePageResponse = {
-  userInfo: UserProfileResponse
-  gmProfiles: GmProfileResponse[]
-  playerProfiles: PlayerProfileResponse[]
 }
 
 export type GmProfileResponse = {
@@ -145,6 +142,12 @@ export type GmProfileResponse = {
   createdAt?: string
   lastUsedAt?: string
   canEdit?: boolean
+}
+
+export type UserProfilePageResponse = {
+  userInfo: UserProfileResponse
+  gmProfiles: GmProfileResponse[]
+  playerProfiles: PlayerProfileResponse[]
 }
 
 export type PlayerProfileResponse = {
@@ -161,31 +164,28 @@ export type PlayerProfileResponse = {
   canEdit?: boolean
 }
 
-export type GameSummary = {
+export type UserProfileResponse = {
   id: number
   name: string | null
-  system: string | null
-  description: string | null
-  playerCount: number
-}
-
-export type GameSummaryAsGm = GameSummary
-
-export type GameSummaryAsPlayer = GameSummary & {
-  playerProfile: ProfileSummary
-  gmProfile: ProfileSummary
-}
-
-export type GmIdentitySummary = {
-  id: number
-  displayName: string | null
   profilePicture: string | null
-  games: GameSummaryAsGm[]
+  email?: string | null
+  createdAt?: string
+  updatedAt?: string
+  canEdit?: boolean
 }
 
-export type GamesIndexResponse = {
-  gmIdentities: GmIdentitySummary[]
-  gamesAsPlayer: GameSummaryAsPlayer[]
+export type CurrentUserResponse = {
+  id: number
+  email: string | null
+  name: string | null
+  profilePicture: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export type UpdateCurrentUserRequest = {
+  name?: string | null
+  profilePicture?: string | null
 }
 
 export type GamesIndexGmIdentity = GmIdentitySummary
