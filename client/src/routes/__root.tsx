@@ -13,7 +13,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
 function RootComponent() {
   return (
-    <>
+    <div className="min-h-screen bg-background bg-linear-to-br from-background via-muted/20 to-background text-foreground">
       <Outlet />
       <TanStackDevtools
         config={{
@@ -26,7 +26,7 @@ function RootComponent() {
           },
         ]}
       />
-    </>
+    </div>
   )
 }
 

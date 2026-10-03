@@ -4,7 +4,7 @@ export const Page = ({
   children: React.ReactNode | undefined
 }) => {
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground p-8">
+    <div className="flex min-h-screen flex-col p-8 text-foreground">
       {children}
     </div>
   )

@@ -73,7 +73,7 @@ function RouteComponent() {
 
   return (
     <Page>
-      <main className="mx-auto w-full max-w-5xl flex-1 py-8">
+      <main className="me-auto w-full max-w-5xl flex-1 py-8">
         {profile.isPending ? (
           <CenteredCard title={PROFILE_LOADING_TITLE} />
         ) : null}
