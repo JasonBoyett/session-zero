@@ -91,11 +91,7 @@ function RouteComponent() {
   )
 }
 
-const ProfileCard = ({
-  profile,
-}: {
-  profile: ProfileResult
-}) => {
+const ProfileCard = ({ profile }: { profile: ProfileResult }) => {
   switch (profile.type) {
     case "gm":
       return <GmProfilePage profile={profile.data} />
@@ -117,17 +113,13 @@ const CenteredCard = ({
     <Card className="mx-auto w-full max-w-xl text-center">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
-        {description ? (
-          <CardDescription>{description}</CardDescription>
-        ) : null}
+        {description ? <CardDescription>{description}</CardDescription> : null}
       </CardHeader>
     </Card>
   )
 }
 
-const isProfileType = (
-  type: string,
-): type is ProfileType =>
+const isProfileType = (type: string): type is ProfileType =>
   Object.hasOwn(profileFetchers, type)
 
 const fetchProfile = async (

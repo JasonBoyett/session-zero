@@ -229,6 +229,7 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            canEdit?: boolean;
         };
         UserProfilePageResponse: {
             userInfo: components["schemas"]["UserProfileResponse"];
@@ -247,6 +248,7 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             lastUsedAt?: string;
+            canEdit?: boolean;
         };
         PlayerProfileResponse: {
             id: number;
@@ -261,6 +263,7 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             lastUsedAt?: string;
+            canEdit?: boolean;
         };
         GameSummary: {
             id: number;

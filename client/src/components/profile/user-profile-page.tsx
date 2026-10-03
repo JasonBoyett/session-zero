@@ -51,7 +51,7 @@ export const UserProfilePage = ({
             ) : null}
             <AvatarFallback>{initialsFor(name)}</AvatarFallback>
           </Avatar>
-          <h1 className="break-words font-heading text-3xl font-semibold tracking-tight text-foreground">
+          <h1 className="wrap-break-word font-heading text-3xl font-semibold tracking-tight text-foreground">
             {name}
           </h1>
         </header>

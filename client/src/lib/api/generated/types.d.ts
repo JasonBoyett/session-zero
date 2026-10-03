@@ -125,6 +125,7 @@ export type UserProfileResponse = {
   email?: string | null
   createdAt?: string
   updatedAt?: string
+  canEdit?: boolean
 }
 
 export type UserProfilePageResponse = {
@@ -143,6 +144,7 @@ export type GmProfileResponse = {
   isUserPublic: boolean
   createdAt?: string
   lastUsedAt?: string
+  canEdit?: boolean
 }
 
 export type PlayerProfileResponse = {
@@ -156,6 +158,7 @@ export type PlayerProfileResponse = {
   isUserPublic: boolean
   createdAt?: string
   lastUsedAt?: string
+  canEdit?: boolean
 }
 
 export type GameSummary = {

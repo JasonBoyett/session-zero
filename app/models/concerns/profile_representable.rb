@@ -14,6 +14,7 @@ module ProfileRepresentable
     end
 
     attributes.except(*excluded_attributes)
+      .merge(can_edit: profile_can_edit?(current_user_id))
   end
 
   private
@@ -24,5 +25,9 @@ module ProfileRepresentable
 
   def profile_owner?(current_user_id)
     id == current_user_id
+  end
+
+  def profile_can_edit?(current_user_id)
+    profile_owner?(current_user_id)
   end
 end

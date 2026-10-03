@@ -9,11 +9,7 @@ import {
 } from "@/lib/constants"
 import type { GmProfileResponse } from "@/lib/api/generated/types"
 
-export const GmProfilePage = ({
-  profile,
-}: {
-  profile: GmProfileResponse
-}) => {
+export const GmProfilePage = ({ profile }: { profile: GmProfileResponse }) => {
   return (
     <Card className="w-full">
       <CardHeader>

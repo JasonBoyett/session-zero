@@ -86,7 +86,8 @@ RSpec.configure do |config|
               profilePicture: { type: :string, nullable: true },
               email: { type: :string, nullable: true },
               createdAt: { type: :string, format: "date-time" },
-              updatedAt: { type: :string, format: "date-time" }
+              updatedAt: { type: :string, format: "date-time" },
+              canEdit: { type: :boolean }
             }
           },
           UserProfilePageResponse: {
@@ -125,7 +126,8 @@ RSpec.configure do |config|
               },
               isUserPublic: { type: :boolean },
               createdAt: { type: :string, format: "date-time" },
-              lastUsedAt: { type: :string, format: "date-time" }
+              lastUsedAt: { type: :string, format: "date-time" },
+              canEdit: { type: :boolean }
             }
           },
           PlayerProfileResponse: {
@@ -148,7 +150,8 @@ RSpec.configure do |config|
               isAccepted: { type: :boolean },
               isUserPublic: { type: :boolean },
               createdAt: { type: :string, format: "date-time" },
-              lastUsedAt: { type: :string, format: "date-time" }
+              lastUsedAt: { type: :string, format: "date-time" },
+              canEdit: { type: :boolean }
             }
           },
           GameSummary: {
