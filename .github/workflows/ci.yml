@@ -5,6 +5,14 @@ on:
   push:
     branches: [ main ]
 
+env:
+  API_URL: http://localhost:3000
+  CLIENT_URL: http://localhost:5173
+  DEVISE_SECRET_KEY: ci-devise-secret-key
+  DISCORD_CLIENT_ID: ci-discord-client-id
+  DISCORD_CLIENT_SECRET: ci-discord-client-secret
+  SESSION_COOKIE_NAME: _session_zero_ci_session
+
 jobs:
   scan_ruby:
     runs-on: ubuntu-latest
