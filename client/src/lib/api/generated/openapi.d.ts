@@ -283,6 +283,7 @@ export interface components {
             /** Format: date-time */
             lastUsedAt?: string;
             canEdit?: boolean;
+            canAccept?: boolean;
         };
         UserProfileResponse: {
             id: number;

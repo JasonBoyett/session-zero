@@ -955,6 +955,9 @@
           },
           "canEdit": {
             "type": "boolean"
+          },
+          "canAccept": {
+            "type": "boolean"
           }
         }
       },

@@ -23,6 +23,13 @@ class PlayerProfile < ApplicationRecord
 
   has_many :player_notes, dependent: :destroy
 
+  def profile_attributes_for(current_user_id)
+    super(current_user_id)
+      .merge(
+        can_accept: is_acceptable_by?(current_user_id)
+      )
+  end
+
   private
 
   def profile_api_only_attributes
@@ -33,5 +40,9 @@ class PlayerProfile < ApplicationRecord
 
   def profile_owner?(current_user_id)
     user_id == current_user_id
+  end
+
+  def is_acceptable_by?(current_user_id)
+    game.game_master_profile.user_id == current_user_id
   end
 end

@@ -21,6 +21,7 @@
     isUserPublic: { type: :boolean },
     createdAt: { type: :string, format: "date-time" },
     lastUsedAt: { type: :string, format: "date-time" },
-    canEdit: { type: :boolean }
+    canEdit: { type: :boolean },
+    canAccept: { type: :boolean }
   }
 }

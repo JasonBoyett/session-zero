@@ -184,6 +184,7 @@ export type PlayerProfileResponse = {
   createdAt?: string
   lastUsedAt?: string
   canEdit?: boolean
+  canAccept?: boolean
 }
 
 export type UserProfileResponse = {
