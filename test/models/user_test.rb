@@ -54,4 +54,16 @@ class UserTest < ActiveSupport::TestCase
     assert_not attributes.key?("reset_password_sent_at")
     assert_not attributes.key?("reset_password_token")
   end
+
+  test "owner can update user profile" do
+    user = users(:one)
+
+    assert user.update_allowed_for?(users(:one).id)
+  end
+
+  test "non-owner cannot update user profile" do
+    user = users(:one)
+
+    assert_not user.update_allowed_for?(users(:two).id)
+  end
 end

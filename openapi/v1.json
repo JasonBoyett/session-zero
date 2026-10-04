@@ -416,15 +416,15 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "player profile updated"
+          "200": {
+            "description": "user profile updated"
           }
         },
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdatePlayerProfileRequest"
+                "$ref": "#/components/schemas/UpdateUserProfileRequest"
               }
             }
           },
@@ -480,8 +480,8 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "player profile updated"
+          "200": {
+            "description": "GM profile updated"
           }
         },
         "requestBody": {
@@ -544,7 +544,7 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": "player profile updated"
           }
         },

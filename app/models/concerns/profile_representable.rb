@@ -18,6 +18,10 @@ module ProfileRepresentable
       .merge(can_edit: profile_can_edit?(current_user_id))
   end
 
+  def update_allowed_for?(current_user_id)
+    profile_owner?(current_user_id)
+  end
+
   private
 
   def profile_api_only_attributes
@@ -29,10 +33,6 @@ module ProfileRepresentable
   end
 
   def profile_can_edit?(current_user_id)
-    profile_owner?(current_user_id)
-  end
-
-  def update_allowed_for?(current_user_id)
     profile_owner?(current_user_id)
   end
 end

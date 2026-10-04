@@ -38,4 +38,22 @@ class PlayerProfileTest < ActiveSupport::TestCase
 
     assert_equal profile.user_id, attributes.fetch("user_id")
   end
+
+  test "owner can update player-owned profile attributes" do
+    profile = player_profiles(:one_pending_four)
+
+    assert profile.update_allowed_for?(users(:one).id)
+  end
+
+  test "unrelated users cannot update player profiles" do
+    unrelated_user = User.create!(
+      name: "Unrelated User",
+      email: "unrelated@example.com",
+      password: "password"
+    )
+
+    assert_not player_profiles(:one_pending_four).update_allowed_for?(
+      unrelated_user.id
+    )
+  end
 end

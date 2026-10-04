@@ -34,4 +34,16 @@ class GameMasterProfileTest < ActiveSupport::TestCase
 
     assert_equal profile.user_id, attributes.fetch("user_id")
   end
+
+  test "owner can update gm profile" do
+    profile = game_master_profiles(:one)
+
+    assert profile.update_allowed_for?(users(:one).id)
+  end
+
+  test "non-owner cannot update gm profile" do
+    profile = game_master_profiles(:one)
+
+    assert_not profile.update_allowed_for?(users(:two).id)
+  end
 end

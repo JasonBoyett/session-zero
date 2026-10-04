@@ -23,6 +23,10 @@ module Api
         def require_authenticated_user
           head :unauthorized unless user_signed_in?
         end
+
+        def profile_update_params
+          params.permit(*User.updatable_attributes)
+        end
       end
     end
   end

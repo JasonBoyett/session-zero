@@ -12,8 +12,10 @@ module Api
 
         def update
           profile = GameMasterProfile.find(params[:id])
+          update_params = profile_update_params
+
           if profile.update_allowed_for?(current_user.id)
-            profile.update!(profile_update_params)
+            profile.update!(update_params)
             render json: { error: nil }, status: :ok
           else
             render json: { error: "not_authorized" }, status: :forbidden
@@ -27,7 +29,10 @@ module Api
         end
 
         def profile_update_params
-          params.permit(*GameMasterProfile.updatable_attributes)
+          params.permit(
+            *(GameMasterProfile.updatable_attributes - [ "systems" ]),
+            systems: []
+          )
         end
       end
     end

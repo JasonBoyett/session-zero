@@ -19,7 +19,7 @@ Rails.application.routes.draw do
         get "user/:id", to: "users#show"
         patch "user/:id", to: "users#update"
         get "gm/:id", to: "gms#show"
-        patch "gm/:id", to: "gm#update"
+        patch "gm/:id", to: "gms#update"
         get "player/:id", to: "players#show"
         patch "player/:id", to: "players#update"
       end

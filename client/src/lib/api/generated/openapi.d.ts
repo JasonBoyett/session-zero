@@ -655,12 +655,12 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdatePlayerProfileRequest"];
+                "application/json": components["schemas"]["UpdateUserProfileRequest"];
             };
         };
         responses: {
-            /** @description player profile updated */
-            204: {
+            /** @description user profile updated */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -721,8 +721,8 @@ export interface operations {
             };
         };
         responses: {
-            /** @description player profile updated */
-            204: {
+            /** @description GM profile updated */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -784,7 +784,7 @@ export interface operations {
         };
         responses: {
             /** @description player profile updated */
-            204: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };

@@ -16,7 +16,7 @@ class PlayerProfile < ApplicationRecord
     is_user_public
     character_description
     character_sheet_link
-  ]
+  ].freeze
 
   belongs_to :user
   belongs_to :game
