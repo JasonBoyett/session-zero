@@ -15,7 +15,7 @@ class ApiJsonCasingTest < ActiveSupport::TestCase
     app = lambda do |_env|
       body = JSON.generate(authenticated: true, csrf_token: "token", user_id: 1)
 
-      [200, { "Content-Type" => "application/json" }, [body]]
+      [ 200, { "Content-Type" => "application/json" }, [ body ] ]
     end
 
     response = Rack::MockRequest

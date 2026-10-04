@@ -8,6 +8,16 @@ module Api
           render json: User.find(params[:id]).profile_page_payload_for(current_user.id)
         end
 
+        def update
+          profile = User.find(params[:id])
+          if profile.update_allowed_for?(current_user.id)
+            profile.update!(profile_update_params)
+            render json: { error: nil }, status: :ok
+          else
+            render json: { error: "not_authorized" }, status: :forbidden
+          end
+        end
+
         private
 
         def require_authenticated_user

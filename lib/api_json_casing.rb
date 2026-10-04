@@ -1,5 +1,5 @@
 module ApiJsonCasing
-  TRUE_VALUES = [true, "true", "1"].freeze
+  TRUE_VALUES = [ true, "true", "1" ].freeze
   NON_API_ROUTE = ->(env) { !env["PATH_INFO"].match?(%r{^/api}) }
 
   def self.enabled?(env_value:, rails_env:)

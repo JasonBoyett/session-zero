@@ -17,8 +17,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :profile do
         get "user/:id", to: "users#show"
+        patch "user/:id", to: "users#update"
         get "gm/:id", to: "gms#show"
+        patch "gm/:id", to: "gm#update"
         get "player/:id", to: "players#show"
+        patch "player/:id", to: "players#update"
       end
 
       namespace :auth do

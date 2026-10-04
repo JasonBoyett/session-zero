@@ -10,7 +10,7 @@ require "rswag/specs"
 Rails.root.glob("spec/support/**/*.rb").sort.each { |file| require file }
 
 RSpec.configure do |config|
-  config.fixture_paths = [Rails.root.join("test/fixtures")]
+  config.fixture_paths = [ Rails.root.join("test/fixtures") ]
   config.use_transactional_fixtures = true
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.infer_spec_type_from_file_location!

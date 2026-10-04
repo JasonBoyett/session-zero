@@ -403,6 +403,33 @@
             "description": "missing user profile"
           }
         }
+      },
+      "patch": {
+        "summary": "Updates a user profile",
+        "operationId": "updateUserProfile",
+        "tags": [
+          "Profile"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "player profile updated"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlayerProfileRequest"
+              }
+            }
+          },
+          "required": true
+        }
       }
     },
     "/profile/gm/{id}": {
@@ -440,6 +467,33 @@
             "description": "missing GM profile"
           }
         }
+      },
+      "patch": {
+        "summary": "Updates a GM profile",
+        "operationId": "updateGmProfile",
+        "tags": [
+          "Profile"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "player profile updated"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGmProfileRequest"
+              }
+            }
+          },
+          "required": true
+        }
       }
     },
     "/profile/player/{id}": {
@@ -476,6 +530,33 @@
           "404": {
             "description": "missing player profile"
           }
+        }
+      },
+      "patch": {
+        "summary": "Updates a player profile",
+        "operationId": "updatePlayerProfile",
+        "tags": [
+          "Profile"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CsrfToken"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "player profile updated"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlayerProfileRequest"
+              }
+            }
+          },
+          "required": true
         }
       }
     }
@@ -669,6 +750,77 @@
             "type": "integer"
           },
           "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateGmProfileRequest": {
+        "type": "object",
+        "properties": {
+          "lastUsedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": false
+          },
+          "bio": {
+            "type": "string",
+            "nullable": true
+          },
+          "isUserPublic": {
+            "type": "boolean",
+            "nullable": false
+          },
+          "systems": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdatePlayerProfileRequest": {
+        "type": "object",
+        "properties": {
+          "characterImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "characterName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isUserPublic": {
+            "type": "boolean",
+            "nullable": false
+          },
+          "characterDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "characterSheetLink": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateUserProfileRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
             "type": "string",
             "nullable": true
           },

@@ -89,7 +89,6 @@ RSpec.describe "Auth OAuth API", type: :request do
         end
       end
     end
-
   end
 
   path "/auth/oauth/failure" do

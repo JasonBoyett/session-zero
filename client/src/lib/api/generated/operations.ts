@@ -62,6 +62,15 @@ export const apiOperations = {
     ],
     "requiresCsrf": false
   },
+  "updateUserProfile": {
+    "route": "/profile/user/{id}",
+    "method": "patch",
+    "hasBody": true,
+    "pathParams": [
+      "id"
+    ],
+    "requiresCsrf": true
+  },
   "getGmProfile": {
     "route": "/profile/gm/{id}",
     "method": "get",
@@ -71,6 +80,15 @@ export const apiOperations = {
     ],
     "requiresCsrf": false
   },
+  "updateGmProfile": {
+    "route": "/profile/gm/{id}",
+    "method": "patch",
+    "hasBody": true,
+    "pathParams": [
+      "id"
+    ],
+    "requiresCsrf": true
+  },
   "getPlayerProfile": {
     "route": "/profile/player/{id}",
     "method": "get",
@@ -79,5 +97,14 @@ export const apiOperations = {
       "id"
     ],
     "requiresCsrf": false
+  },
+  "updatePlayerProfile": {
+    "route": "/profile/player/{id}",
+    "method": "patch",
+    "hasBody": true,
+    "pathParams": [
+      "id"
+    ],
+    "requiresCsrf": true
   }
 } as const

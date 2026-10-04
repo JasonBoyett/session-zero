@@ -131,6 +131,28 @@ export type ProfileSummary = {
   profilePicture: string | null
 }
 
+export type UpdateGmProfileRequest = {
+  lastUsedAt?: string
+  bio?: string | null
+  isUserPublic?: boolean
+  systems?: string[]
+  name?: string | null
+  profilePicture?: string | null
+}
+
+export type UpdatePlayerProfileRequest = {
+  characterImage?: string | null
+  characterName?: string | null
+  isUserPublic?: boolean
+  characterDescription?: string | null
+  characterSheetLink?: string | null
+}
+
+export type UpdateUserProfileRequest = {
+  name?: string | null
+  profilePicture?: string | null
+}
+
 export type GmProfileResponse = {
   id: number
   userId?: number

@@ -29,11 +29,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # end
 
   def discord
-
     auth = request.env["omniauth.auth"]
     user = IdentityService.authenticate auth
 
     sign_in_and_redirect user
   end
-
 end

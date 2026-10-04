@@ -10,6 +10,13 @@ class PlayerProfile < ApplicationRecord
     created_at
     last_used_at
   ].freeze
+  self.updatable_attributes = %w[
+    character_image
+    character_name
+    is_user_public
+    character_description
+    character_sheet_link
+  ]
 
   belongs_to :user
   belongs_to :game
@@ -21,7 +28,7 @@ class PlayerProfile < ApplicationRecord
   def profile_api_only_attributes
     return super unless is_user_public
 
-    super - ["user_id"]
+    super - [ "user_id" ]
   end
 
   def profile_owner?(current_user_id)

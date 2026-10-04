@@ -4,6 +4,7 @@ module ProfileRepresentable
   included do
     class_attribute :api_only_attributes, default: []
     class_attribute :owner_only_attributes, default: []
+    class_attribute :updatable_attributes, default: []
   end
 
   def profile_attributes_for(current_user_id)
@@ -28,6 +29,10 @@ module ProfileRepresentable
   end
 
   def profile_can_edit?(current_user_id)
+    profile_owner?(current_user_id)
+  end
+
+  def update_allowed_for?(current_user_id)
     profile_owner?(current_user_id)
   end
 end

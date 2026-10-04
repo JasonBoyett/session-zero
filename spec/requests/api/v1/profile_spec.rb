@@ -41,6 +41,33 @@ RSpec.describe "Profile API", type: :request do
 
         run_test!
       end
+      end
+
+      patch "Updates a user profile" do
+        operationId "updateUserProfile"
+        tags "Profile"
+        consumes "application/json"
+
+        parameter "$ref" => "#/components/parameters/CsrfToken"
+
+        parameter name: :player_profile,
+          in: :body,
+          required: true,
+          schema: { "$ref" => "#/components/schemas/UpdatePlayerProfileRequest" }
+
+        let(:id) { player_profiles(:one).id }
+        let(:player_profile) { {} }
+
+        let(:"X-CSRF-Token") do
+          get "/api/v1/auth/session"
+          JSON.parse(response.body).fetch("csrfToken")
+        end
+
+        response "204", "player profile updated" do
+          before { sign_in users(:one) }
+
+          run_test!
+        end
     end
   end
 
@@ -78,6 +105,33 @@ RSpec.describe "Profile API", type: :request do
         run_test!
       end
     end
+
+    patch "Updates a GM profile" do
+      operationId "updateGmProfile"
+      tags "Profile"
+      consumes "application/json"
+
+      parameter "$ref" => "#/components/parameters/CsrfToken"
+
+      parameter name: :player_profile,
+        in: :body,
+        required: true,
+        schema: { "$ref" => "#/components/schemas/UpdateGmProfileRequest" }
+
+      let(:id) { player_profiles(:one).id }
+      let(:player_profile) { {} }
+
+      let(:"X-CSRF-Token") do
+        get "/api/v1/auth/session"
+        JSON.parse(response.body).fetch("csrfToken")
+      end
+
+      response "204", "player profile updated" do
+        before { sign_in users(:one) }
+
+        run_test!
+      end
+    end
   end
 
   path "/profile/player/{id}" do
@@ -110,6 +164,33 @@ RSpec.describe "Profile API", type: :request do
         before do
           sign_in users(:one)
         end
+
+        run_test!
+      end
+    end
+
+    patch "Updates a player profile" do
+      operationId "updatePlayerProfile"
+      tags "Profile"
+      consumes "application/json"
+
+      parameter "$ref" => "#/components/parameters/CsrfToken"
+
+      parameter name: :player_profile,
+        in: :body,
+        required: true,
+        schema: { "$ref" => "#/components/schemas/UpdatePlayerProfileRequest" }
+
+      let(:id) { player_profiles(:one).id }
+      let(:player_profile) { {} }
+
+      let(:"X-CSRF-Token") do
+        get "/api/v1/auth/session"
+        JSON.parse(response.body).fetch("csrfToken")
+      end
+
+      response "204", "player profile updated" do
+        before { sign_in users(:one) }
 
         run_test!
       end

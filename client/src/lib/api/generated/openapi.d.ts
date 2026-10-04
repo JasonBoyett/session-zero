@@ -142,7 +142,8 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /** Updates a user profile */
+        patch: operations["updateUserProfile"];
         trace?: never;
     };
     "/profile/gm/{id}": {
@@ -161,7 +162,8 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /** Updates a GM profile */
+        patch: operations["updateGmProfile"];
         trace?: never;
     };
     "/profile/player/{id}": {
@@ -180,7 +182,8 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /** Updates a player profile */
+        patch: operations["updatePlayerProfile"];
         trace?: never;
     };
 }
@@ -226,6 +229,26 @@ export interface components {
             id: number;
             displayName: string | null;
             profilePicture: string | null;
+        };
+        UpdateGmProfileRequest: {
+            /** Format: date-time */
+            lastUsedAt?: string;
+            bio?: string | null;
+            isUserPublic?: boolean;
+            systems?: string[];
+            name?: string | null;
+            profilePicture?: string | null;
+        };
+        UpdatePlayerProfileRequest: {
+            characterImage?: string | null;
+            characterName?: string | null;
+            isUserPublic?: boolean;
+            characterDescription?: string | null;
+            characterSheetLink?: string | null;
+        };
+        UpdateUserProfileRequest: {
+            name?: string | null;
+            profilePicture?: string | null;
         };
         GmProfileResponse: {
             id: number;
@@ -618,6 +641,32 @@ export interface operations {
             };
         };
     };
+    updateUserProfile: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-CSRF-Token": components["parameters"]["CsrfToken"];
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePlayerProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description player profile updated */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getGmProfile: {
         parameters: {
             query?: never;
@@ -654,6 +703,32 @@ export interface operations {
             };
         };
     };
+    updateGmProfile: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-CSRF-Token": components["parameters"]["CsrfToken"];
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateGmProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description player profile updated */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getPlayerProfile: {
         parameters: {
             query?: never;
@@ -683,6 +758,32 @@ export interface operations {
             };
             /** @description missing player profile */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updatePlayerProfile: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-CSRF-Token": components["parameters"]["CsrfToken"];
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePlayerProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description player profile updated */
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };

@@ -53,7 +53,10 @@ function Login() {
                 )
               }}
             >
-              <label className="flex flex-col gap-2 text-sm font-medium" htmlFor="email">
+              <label
+                className="flex flex-col gap-2 text-sm font-medium"
+                htmlFor="email"
+              >
                 Email
                 <input
                   className="rounded-md border border-input bg-background px-3 py-2 text-base text-foreground shadow-xs outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
@@ -64,7 +67,10 @@ function Login() {
                 />
               </label>
 
-              <label className="flex flex-col gap-2 text-sm font-medium" htmlFor="password">
+              <label
+                className="flex flex-col gap-2 text-sm font-medium"
+                htmlFor="password"
+              >
                 Password
                 <input
                   className="rounded-md border border-input bg-background px-3 py-2 text-base text-foreground shadow-xs outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
@@ -76,7 +82,9 @@ function Login() {
               </label>
 
               {loginError ? (
-                <p className="text-sm text-destructive">Invalid email or password.</p>
+                <p className="text-sm text-destructive">
+                  Invalid email or password.
+                </p>
               ) : null}
 
               <Button disabled={context.auth.login.isPending} type="submit">
